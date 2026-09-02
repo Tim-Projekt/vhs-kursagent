@@ -1,0 +1,277 @@
+{
+  "guid": "789304",
+  "nummer": "Mi302-121H",
+  "name": "Kickbox trifft Fitness",
+  "untertitel": null,
+  "bezirk": "Mitte",
+  "dvv_kategorie": {
+    "@version": "2.0",
+    "#text": "3.02"
+  },
+  "veranstaltungsart": "Kurs",
+  "minimale_teilnehmerzahl": "6",
+  "aktuelle_teilnehmerzahl": "1",
+  "maximale_teilnehmerzahl": "10",
+  "anzahl_termine": "26",
+  "beginn_datum": "2026-09-02",
+  "ende_datum": "2026-12-09",
+  "zielgruppe": null,
+  "schlagwort": [
+    "Fitnessgymnastik",
+    "Fragen auf Englisch",
+    "GESUNDHEIT"
+  ],
+  "text": [
+    {
+      "eigenschaft": "Beschreibung",
+      "text": "Diese Mischung aus Kampfsporttechniken und funktionalem Training ist ein motivierendes, schweißtreibendes Workout, ein optimales Rundumtraining für den gesamten Körper. Jeder Termin ist in drei Phasen eingeteilt: Aufwärmen, Technik-Erlernen von Schlag- und Kickarten und Pratzentraining mit Boxhandschuhen. Es gibt keinen Gesichtskontakt. Dazwischen werden funktionale Übungen wie Liegestütze und Kniebeugen durchgeführt.\r\nDer Kurs eignet sich sehr gut zum Abbau von Stress und Aggressionen und stärkt das Selbstbewusstsein. Es werden alle Muskelgruppen im Körper aktiviert, das ist der Fatburner schlechthin. Zum Abschluss gibt es noch einen kurzen Stretchingteil. Das Aufwärmen ist sehr wichtig, daher bitte pünktlich zur Kursstunde erscheinen. \r\n\r\nAnna Pliakou kommt aus Griechenland und ist Trainerin für Fitness, Kickboxen und Boxen. In Kickboxen hat sie 2004 und 2007 die griechische Meisterschaft gewonnen und auch den 1. Dan erworben. Sie ist anerkannte Box-Trainerin vom Deutschen Olympischen Sportbund.\r\n"
+    },
+    {
+      "eigenschaft": "Zusatzinformation",
+      "text": "Bitte feste Turnschuhe, lockere Sportbekleidung, ein Handtuch und viel zum Trinken mitbringen. \r\nYour course instructor can answer your questions in Greek and English when required."
+    }
+  ],
+  "anmeldung": {
+    "telefon": "9018 37474",
+    "mail": "vhs@ba-mitte.berlin.de",
+    "link": "http://www.berlin.de/vhsmitte"
+  },
+  "ansprechperson": {
+    "anrede": "Frau",
+    "titel": null,
+    "name": "Waldeck",
+    "vorname": "Tanja",
+    "telefon": "(030) 9018-37424",
+    "mail": "tanja.waldeck@ba-mitte.berlin.de"
+  },
+  "ortetermine": {
+    "adresse": [
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      },
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      },
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      },
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      },
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      },
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      },
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      },
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      },
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      },
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      },
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      },
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      },
+      {
+        "lehrstaette": "VHS Berlin Mitte",
+        "plz": "10115",
+        "ort": "Berlin",
+        "strasse": "Linienstr. 162",
+        "raum": "Raum 4.09 (Gymnastik)",
+        "laengengrad": "13.396134",
+        "breitengrad": "52.528086",
+        "behindertenzugang": "true"
+      }
+    ],
+    "termin": [
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-09-02",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      },
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-09-09",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      },
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-09-16",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      },
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-09-23",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      },
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-09-30",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      },
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-10-07",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      },
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-10-14",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      },
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-11-04",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      },
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-11-11",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      },
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-11-18",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      },
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-11-25",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      },
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-12-02",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      },
+      {
+        "wochentag": "Mittwoch",
+        "beginn_datum": "2026-12-09",
+        "beginn_uhrzeit": "16:00",
+        "ende_uhrzeit": "17:30"
+      }
+    ]
+  },
+  "preis": {
+    "betrag": "84.70",
+    "rabatt_moeglich": "true",
+    "zusatz": "erm. Preis: 47,00 EUR"
+  },
+  "dozent": {
+    "anrede": "Frau",
+    "titel": null,
+    "name": "Pliakou",
+    "vorname": "Anna"
+  },
+  "webadresse": {
+    "typ": "website",
+    "name": "zur Kursbuchung",
+    "uri": "http://www.vhsit.berlin.de/VHSKURSE/BusinessPages/CourseDetail.aspx?id=789304"
+  }
+}

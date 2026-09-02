@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openvhs:veranstaltungen
+    version="1.2"
+    xmlns:openvhs="http://www.dvv-vhs.de/Open-VHS"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.dvv-vhs.de/Open-VHS https://api.vhs-kursfinder.de/openvhs-1.2.xsd">
+  <export>
+    <erstellungszeitpunkt>2021-02-01T03:00:00+02:00</erstellungszeitpunkt>
+    <ersteller>
+      <guid>0123456789</guid>
+      <name><![CDATA[vhs Landkreis Fulda]]></name>
+    </ersteller>
+  </export>
+  <veranstaltung>
+    <guid>0F48F5A8-C22C-4AFF-B891-77095CD84029</guid>
+    <nummer><![CDATA[VG5010105]]></nummer>
+    <name><![CDATA[Windows und Internet - Basiswissen Teil 1]]></name>
+    <untertitel><![CDATA[Windows und Internet]]></untertitel>
+    <untertitel><![CDATA[Basiswissen Teil 1]]></untertitel>
+    <dvv_kategorie version="2.0">5.01</dvv_kategorie>
+    <merkmale>
+      <merkmal>
+        <name>kursart_digital</name>
+        <wert>online_angebot</wert>
+        <!-- <wert>blended_learning</wert> -->
+        <!-- <wert>selbstlernangebot</wert> -->
+      </merkmal>
+      <merkmal>
+        <name>anmeldung_kostenlos</name>
+        <wert>true</wert>
+      </merkmal>
+      <merkmal>
+        <name>abschlussbezogen</name>
+        <wert>false</wert>
+      </merkmal>
+      <merkmal>
+        <name>mit_onlinepruefung</name>
+        <wert>true</wert>
+      </merkmal>
+      <merkmal>
+        <name>langsames_lerntempo</name>
+        <wert>false</wert>
+      </merkmal>
+      <merkmal>
+        <name>barrierefreies_lernen</name>
+        <wert>true</wert>
+      </merkmal>
+      <merkmal>
+        <name>vhscloud_kurs</name>
+        <wert>true</wert>
+      </merkmal>
+    </merkmale>
+    <level>Einsteiger</level>
+    <minimale_teilnehmerzahl>6</minimale_teilnehmerzahl>
+    <aktuelle_teilnehmerzahl>9</aktuelle_teilnehmerzahl>
+    <maximale_teilnehmerzahl>12</maximale_teilnehmerzahl>
+    <anzahl_termine>5</anzahl_termine>
+    <beginn_datum>2021-02-03</beginn_datum>
+    <dauer>15.0</dauer>
+    <ende_datum>2021-03-01</ende_datum>
+    <zielgruppe><![CDATA[Lehrer/innen]]></zielgruppe>
+    <zielgruppe><![CDATA[Erzieher/innen]]></zielgruppe>
+    <zielgruppe><![CDATA[Betreuer/innen]]></zielgruppe>
+    <schlagwort><![CDATA[Betriebssystem]]></schlagwort>
+    <schlagwort><![CDATA[Windows 7]]></schlagwort>
+    <schlagwort><![CDATA[PC]]></schlagwort>
+    <schlagwort><![CDATA[Internet]]></schlagwort>
+    <zertifikat>
+      <name><![CDATA[TS59.P33B]]></name>
+      <text><![CDATA[Prüfung X-pert CMS Online Designer Modul IIIa- CMS Joomla]]></text>
+    </zertifikat>
+    <text>
+      <eigenschaft>text</eigenschaft>
+      <text><![CDATA[Betriebssystem Windows 7
+Kursinhalt:
+Aufbau eines typischen PC-Systems, Bedienung und individuelle Konfiguration der Windows-Benutzeroberfläche, Vorstellen wichtiger Standard- und Zubehörprogramme, Dateiverwaltung mit Windows-Explorer und Arbeitsplatz (Dateien und Ordner erstellen, umbenennen, verschieben, kopieren, löschen), Suchen von Dateien, Einführung in die Nutzung des Internets (Bedienung eines Browsers, Navigieren im Internet).]]></text>
+    </text>
+    <text>
+      <eigenschaft>text</eigenschaft>
+      <text><![CDATA[Der Kurs richtet sich an Computer-Anfänger/-innen.
+Wenn Sie noch nie oder nur wenig mit Computern zu tun hatten, besuchen Sie bitte zuvor einen unserer Kurse "Keine Angst vor dem PC", um sich vor allem mit dem Umgang mit Tastatur, Maus und den Windows-Fenstern vertraut zu machen.
+
+Lehrbuch ist in der Unterrichtsgebühr enthalten.
+
+Kombiniert mit dem Kurs Windows und Internet - Basiswissen Teil 2 können Interessenten diesen Kurs für die Vorbereitung auf die Prüfung des Bausteins "Xpert Starter" des Qualifizierungssystems "Xpert - Europäischer ComputerPass nutzen (weitere Informationen zu Xpert finden Sie in der Einleitung des EDV-Programmes).]]></text>
+    </text>
+    <veranstaltungsort>
+      <name><![CDATA[Eduard-Stieler-Campus]]></name>
+      <adresse>
+        <land><![CDATA[Deutschland]]></land>
+        <plz>36037</plz>
+        <ort><![CDATA[Fulda]]></ort>
+        <ortsteil><![CDATA[Innenstadt]]></ortsteil>
+        <strasse><![CDATA[Brüder-Grimm-Str. 5]]></strasse>
+      </adresse>
+      <barrierefrei>false</barrierefrei>
+    </veranstaltungsort>
+    <termin>
+      <beginn_datum>2021-02-03</beginn_datum>
+      <beginn_uhrzeit>18:30:00</beginn_uhrzeit>
+      <ende_uhrzeit>21:00:00</ende_uhrzeit>
+    </termin>
+    <termin>
+      <beginn_datum>2021-02-10</beginn_datum>
+      <beginn_uhrzeit>18:30:00</beginn_uhrzeit>
+      <ende_uhrzeit>21:00:00</ende_uhrzeit>
+    </termin>
+    <termin>
+      <beginn_datum>2021-02-17</beginn_datum>
+      <beginn_uhrzeit>18:30:00</beginn_uhrzeit>
+      <ende_uhrzeit>21:00:00</ende_uhrzeit>
+    </termin>
+    <termin>
+      <beginn_datum>2021-02-24</beginn_datum>
+      <beginn_uhrzeit>18:30:00</beginn_uhrzeit>
+      <ende_uhrzeit>21:00:00</ende_uhrzeit>
+    </termin>
+    <termin>
+      <beginn_datum>2021-03-01</beginn_datum>
+      <beginn_uhrzeit>18:30:00</beginn_uhrzeit>
+      <ende_uhrzeit>21:00:00</ende_uhrzeit>
+    </termin>
+    <preis>
+      <betrag>82.8</betrag>
+      <rabatt_moeglich>true</rabatt_moeglich>
+      <zusatz><![CDATA[zzgl. ca. 5 € für Unterrichtsmaterial]]></zusatz>
+      <zusatz><![CDATA[zweite Anmerkung]]></zusatz>
+    </preis>
+    <webadresse>
+      <typ>website</typ>
+      <name><![CDATA[Kursdetails]]></name>
+      <uri><![CDATA[http://vhs-fulda.de/index.php?id=22&kathaupt=11&knr=VG5010105&kursname=Windows+und+Internet+-+Basiswissen+Teil+1]]></uri>
+    </webadresse>
+    <webadresse>
+      <typ>website_mobile</typ>
+      <name><![CDATA[Kursdetails]]></name>
+      <uri><![CDATA[http://m.vhs-fulda.de/index.php?id=22&kathaupt=11&knr=VG5010105&kursname=Windows+und+Internet+-+Basiswissen+Teil+1]]></uri>
+    </webadresse>
+    <webadresse>
+      <typ>attachment</typ>
+      <name><![CDATA[Ablaufplan (Stand 01.02.2014)]]></name>
+      <uri><![CDATA[http://www.vhs-fulda.de/fileadmin/user_upload/documents/VG5010105/Ablaufplan.pdf]]></uri>
+    </webadresse>
+    <webadresse>
+      <typ>attachment</typ>
+      <name><![CDATA[Anerkennung (Stand 01.02.2014)]]></name>
+      <uri><![CDATA[http://www.vhs-fulda.de/fileadmin/user_upload/documents/VG5010105/Anerkennung.pdf]]></uri>
+    </webadresse>
+  </veranstaltung>
+  <veranstaltung>
+    <guid>0EAFAD5E-CF35-4D98-93CC-9808DE0FDC5B</guid>
+    <nummer><![CDATA[Nk-F550c]]></nummer>
+    <name><![CDATA[Englisch B1.2 intensiv (BU): Headway B1 Part One, Lektion 6-10]]></name>
+    <dvv_kategorie version="2.0">4.06</dvv_kategorie>
+    <merkmale>
+      <merkmal>
+        <name><![CDATA[D(1)]]></name>
+        <wert>true</wert>
+      </merkmal>
+    </merkmale>
+    <level>B1.2</level>
+    <minimale_teilnehmerzahl>8</minimale_teilnehmerzahl>
+    <aktuelle_teilnehmerzahl>10</aktuelle_teilnehmerzahl>
+    <maximale_teilnehmerzahl>12</maximale_teilnehmerzahl>
+    <anzahl_termine>10</anzahl_termine>
+    <beginn_datum>2021-04-11</beginn_datum>
+    <dauer>40.0</dauer>
+    <ende_datum>2021-04-22</ende_datum>
+    <schlagwort><![CDATA[Englisch]]></schlagwort>
+    <schlagwort><![CDATA[B1]]></schlagwort>
+    <schlagwort><![CDATA[B1.2]]></schlagwort>
+    <text>
+      <eigenschaft>text</eigenschaft>
+      <text><![CDATA[Vorkenntnisse: Kompetenzstufe A2/B1.
+Kursmaterial: "Headway B1 Part One", Oxford University Press, (Gesamtpaket, ISBN: 9780194716550), bitte zum Kurs mitbringen.
+Kursinhalt:  Lektion 6-10.
+Course topics are: Describing a place, comparing things, talking about towns and sightseeing. Tourist destinations and travelling. Interviewing and talking about famous people, biographies. Do's and don'ts.Talking about discoveries and inventions. Expressing obligation, asking for and giving advice. Discussing pros and cons.
+Grammar: Comparative and superlative adjectives, present perfect vs past smple, present perfect continuous. Time clauses; first conditional.; passives.
+Bitte beachten Sie: dieser Kurs ist auch unabhängig vom Vorgängerkurs Nk-F540c buchbar.]]></text>
+    </text>
+    <veranstaltungsort>
+      <name><![CDATA[Comeniushaus]]></name>
+      <adresse>
+        <land><![CDATA[Deutschland]]></land>
+        <plz>12055</plz>
+        <ort><![CDATA[Berlin]]></ort>
+        <strasse><![CDATA[Lahnstr. 78]]></strasse>
+      </adresse>
+    </veranstaltungsort>
+    <termin>
+      <beginn_datum>2021-04-11</beginn_datum>
+      <beginn_uhrzeit>13:00:00+02:00</beginn_uhrzeit>
+      <ende_uhrzeit>16:15:00+02:00</ende_uhrzeit>
+    </termin>
+    <termin>
+      <beginn_datum>2021-04-12</beginn_datum>
+      <beginn_uhrzeit>13:00:00+02:00</beginn_uhrzeit>
+      <ende_uhrzeit>16:15:00+02:00</ende_uhrzeit>
+    </termin>
+    <termin>
+      <beginn_datum>2021-04-13</beginn_datum>
+      <beginn_uhrzeit>13:00:00+02:00</beginn_uhrzeit>
+      <ende_uhrzeit>16:15:00+02:00</ende_uhrzeit>
+    </termin>
+    <termin>
+      <beginn_datum>2021-04-14</beginn_datum>
+      <beginn_uhrzeit>13:00:00+02:00</beginn_uhrzeit>
+      <ende_uhrzeit>16:15:00+02:00</ende_uhrzeit>
+    </termin>
+    <termin>
+      <beginn_datum>2021-04-15</beginn_datum>
+      <beginn_uhrzeit>13:00:00+02:00</beginn_uhrzeit>
+      <ende_uhrzeit>16:15:00+02:00</ende_uhrzeit>
+    </termin>
+    <termin>
+      <beginn_datum>2021-04-18</beginn_datum>
+      <beginn_uhrzeit>13:00:00+02:00</beginn_uhrzeit>
+      <ende_uhrzeit>16:15:00+02:00</ende_uhrzeit>
+    </termin>
+    <termin>
+      <beginn_datum>2021-04-19</beginn_datum>
+      <beginn_uhrzeit>13:00:00+02:00</beginn_uhrzeit>
+      <ende_uhrzeit>16:15:00+02:00</ende_uhrzeit>
+    </termin>
+    <termin>
+      <beginn_datum>2021-04-20</beginn_datum>
+    </termin>
+    <termin>
+      <beginn_datum>2021-04-21</beginn_datum>
+    </termin>
+    <termin>
+      <beginn_datum>2021-04-22</beginn_datum>
+    </termin>
+    <preis>
+      <betrag>109.0</betrag>
+      <rabatt_moeglich>true</rabatt_moeglich>
+    </preis>
+    <webadresse>
+      <typ>website</typ>
+      <name><![CDATA[Kursdetails]]></name>
+      <uri><![CDATA[http://www.vhsit.berlin.de/VHSKURSE/BusinessPages/CourseDetail.aspx?id=334499]]></uri>
+    </webadresse>
+  </veranstaltung>
+  <veranstaltung>
+    <guid>8F088B29-5C97-4F85-80D1-FBEBA25B450F</guid>
+    <nummer><![CDATA[D040106]]></nummer>
+    <name><![CDATA[Arabisch für Fortgeschrittene]]></name>
+    <untertitel><![CDATA[Bildungsurlaub (2 Wochen halbtags)]]></untertitel>
+    <dvv_kategorie version="2.0">4.01</dvv_kategorie>
+    <level>B1</level>
+    <aktuelle_teilnehmerzahl>10</aktuelle_teilnehmerzahl>
+    <maximale_teilnehmerzahl>16</maximale_teilnehmerzahl>
+    <anzahl_termine>12</anzahl_termine>
+    <beginn_datum>2021-02-18</beginn_datum>
+    <dauer>24.0</dauer>
+    <ende_datum>2021-05-18</ende_datum>
+    <wochentag>Montag</wochentag>
+    <wochentag>Dienstag</wochentag>
+    <wochentag>Mittwoch</wochentag>
+    <schlagwort><![CDATA[Arabisch]]></schlagwort>
+    <schlagwort><![CDATA[Fortgeschrittene]]></schlagwort>
+    <schlagwort><![CDATA[B1]]></schlagwort>
+    <zertifikat>
+      <name><![CDATA[telc Arabisch B1]]></name>
+    </zertifikat>
+    <text>
+      <eigenschaft>text</eigenschaft>
+      <text><![CDATA[Lehrbuch:
+Usrati Band 2 (3-19-005244-1), Hueber-Verlag und zusätzliche Materialien]]></text>
+    </text>
+    <veranstaltungsort>
+      <name><![CDATA[VHS]]></name>
+      <adresse>
+        <land><![CDATA[Deutschland]]></land>
+        <plz>88212</plz>
+        <ort><![CDATA[Ravensburg]]></ort>
+        <strasse><![CDATA[Wilhelmstraße 5]]></strasse>
+      </adresse>
+      <barrierefrei>true</barrierefrei>
+    </veranstaltungsort>
+    <preis>
+      <betrag>69.6</betrag>
+      <rabatt_moeglich>false</rabatt_moeglich>
+    </preis>
+    <webadresse>
+      <typ>website</typ>
+      <name><![CDATA[Website]]></name>
+      <uri><![CDATA[https://vhs-rv.de/Veranstaltung/cmx513494f57b295.html]]></uri>
+    </webadresse>
+  </veranstaltung>
+  <veranstaltung>
+    <guid>73BF32EC-27C2-4F42-8497-8D7D9B1F84CB</guid>
+    <nummer><![CDATA[T58130]]></nummer>
+    <name><![CDATA[Arabisch für Fortgeschrittene (B2)]]></name>
+    <dvv_kategorie version="2.0">4.01</dvv_kategorie>
+    <level>B2</level>
+    <anzahl_termine>15</anzahl_termine>
+    <beginn_datum>2021-02-06</beginn_datum>
+    <dauer>30.0</dauer>
+    <ende_datum>2021-01-31</ende_datum>
+    <wochentag>Freitag</wochentag>
+    <schlagwort><![CDATA[Arabisch]]></schlagwort>
+    <schlagwort><![CDATA[Fortgeschrittene]]></schlagwort>
+    <schlagwort><![CDATA[B2]]></schlagwort>
+    <text>
+      <eigenschaft>text</eigenschaft>
+      <text><![CDATA[Lehrwerk:
+Usrati 2, Hueber Verlag, ca. ab L. 12]]></text>
+    </text>
+    <veranstaltungsort>
+      <name><![CDATA[vhs-Haus]]></name>
+      <adresse>
+        <land><![CDATA[Deutschland]]></land>
+        <plz>55116</plz>
+        <ort><![CDATA[Mainz]]></ort>
+        <strasse><![CDATA[Karmeliterstraße 1]]></strasse>
+      </adresse>
+      <barrierefrei>false</barrierefrei>
+    </veranstaltungsort>
+    <preis>
+      <betrag>130.0</betrag>
+    </preis>
+    <webadresse>
+      <typ>website</typ>
+      <name><![CDATA[Informationen zur Buchung]]></name>
+      <uri><![CDATA[http://www.vhs-mainz.de/neu/T58130]]></uri>
+    </webadresse>
+  </veranstaltung>
+  <veranstaltung>
+    <guid>B54B99C6-793C-4A82-A688-C8ECBA0D4E2B</guid>
+    <nummer><![CDATA[T58130]]></nummer>
+    <name><![CDATA[Arabisch für Anfänger (A1)]]></name>
+    <dvv_kategorie version="2.0">4.01</dvv_kategorie>
+    <level>A1</level>
+    <beginn_datum>2021-02-06</beginn_datum>
+    <text>
+      <eigenschaft>text</eigenschaft>
+      <text><![CDATA[Lehrwerk:
+Usrati 1, Hueber Verlag]]></text>
+    </text>
+    <veranstaltungsort>
+      <name><![CDATA[vhs-Haus]]></name>
+      <adresse>
+        <land><![CDATA[Deutschland]]></land>
+        <plz>55116</plz>
+        <ort><![CDATA[Mainz]]></ort>
+        <strasse><![CDATA[Karmeliterstraße 1]]></strasse>
+      </adresse>
+      <barrierefrei>true</barrierefrei>
+    </veranstaltungsort>
+    <preis>
+      <betrag>0.0</betrag>
+    </preis>
+    <webadresse>
+      <typ>website</typ>
+      <name><![CDATA[Weitere Informationen]]></name>
+      <uri><![CDATA[http://www.vhs-mainz.de/neu/T58130]]></uri>
+    </webadresse>
+  </veranstaltung>
+  <veranstaltung>
+    <guid>T58129</guid>
+    <nummer><![CDATA[T58129]]></nummer>
+    <name><![CDATA[Arabisch für Anfänger (A2)]]></name>
+    <dvv_kategorie version="2.0">4.01</dvv_kategorie>
+    <beginn_datum>2021-02-06</beginn_datum>
+    <veranstaltungsort>
+      <name><![CDATA[vhs-Haus]]></name>
+      <adresse>
+        <land><![CDATA[Deutschland]]></land>
+        <plz>55116</plz>
+        <ort><![CDATA[Mainz]]></ort>
+        <strasse><![CDATA[Karmeliterstraße 1]]></strasse>
+      </adresse>
+    </veranstaltungsort>
+    <webadresse>
+      <typ>website</typ>
+      <name><![CDATA[Weitere Informationen]]></name>
+      <uri><![CDATA[http://www.vhs-mainz.de/neu/T58129]]></uri>
+    </webadresse>
+  </veranstaltung>
+</openvhs:veranstaltungen>

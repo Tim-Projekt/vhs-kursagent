@@ -1,0 +1,7 @@
+# Pipeline-Daten (zu groß für GitHub)
+fnr_pipeline/data/
+
+# Secrets
+.env
+
+.vercel

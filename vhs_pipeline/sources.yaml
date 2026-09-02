@@ -1,0 +1,65 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# VHS source registry — the whole "which VHS do we ingest" surface lives here.
+#
+# Adding a source that speaks Open-vhs  ->  add a block with kind: openvhs + url.
+# Adding a bespoke source               ->  write a ~40-line adapter, kind: <name>.
+#
+# Fields:
+#   id            stable slug; also the processed-file name and uid prefix
+#   kind          adapter class key (see vhs_pipeline/adapters/__init__.py)
+#   namespace     vector-store namespace -> per-source isolation
+#   url           HTTP(S) feed URL (omit if local_path is set)
+#   local_path    read from disk instead of HTTP (tests / offline)
+#   enabled       pipeline skips the source when false
+#   encoding      feed charset (default utf-8)
+#   region        optional Bundesland / area label -> Provider.region fallback
+#   provider_id / provider_name   fallback provider identity when the feed
+#                 carries no export/ersteller (single-VHS feeds)
+#   license / homepage / notes    documentation only
+# ─────────────────────────────────────────────────────────────────────────────
+
+sources:
+
+  - id: berlin
+    kind: berlin
+    namespace: vhs/berlin
+    url: https://www.vhsit.berlin.de/VHSKURSE/OpenData/Kurse.json
+    enabled: true
+    encoding: utf-8
+    region: Berlin
+    license: CC-BY
+    homepage: https://www.berlin.de/vhs/
+    data_portal: https://daten.berlin.de/datensaetze/kurse
+    notes: >
+      12 Bezirks-VHS + Servicezentrum in einem Feed; jede Bezirks-VHS wird als
+      eigener Provider modelliert. ~10.000 Kurse. Aktualisierung stündlich,
+      fachlicher Semesterstand wöchentlich (Mo).
+
+  # Canonical Open-vhs example doc from the DVV spec — used as an integration
+  # fixture for the generic adapter (Fulda / Berlin / Mainz / Ravensburg rows).
+  - id: openvhs_fixture
+    kind: openvhs
+    namespace: vhs/_fixture
+    local_path: vhs_pipeline/tests/fixtures/openvhs-1.2.xml
+    enabled: true
+    encoding: utf-8
+    provider_name: "Open-vhs 1.2 Beispiel"
+    license: DVV Open-vhs Spezifikation
+    homepage: https://api.vhs-kursfinder.de/openvhs-1.2
+    notes: Fixture only. Proves the generic Open-vhs XML path end-to-end.
+
+  # ── Templates for real bundesweite sources (fill url, then enable) ──────────
+  # - id: bonn
+  #   kind: openvhs            # verify the Bonn export really is Open-vhs XML
+  #   namespace: vhs/bonn
+  #   url: https://opendata.bonn.de/.../vhs-openvhs.xml
+  #   enabled: false
+  #   region: Nordrhein-Westfalen
+  #   license: dl-de/by-2-0
+  #   data_portal: https://opendata.bonn.de/dataset/programm-kurse-veranstaltungen-volkshochschule-vhs
+  #
+  # - id: <stadt>
+  #   kind: openvhs
+  #   namespace: vhs/<stadt>
+  #   url: https://.../datenbestand.openvhs.xml
+  #   enabled: false

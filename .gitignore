@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Secrets / env
+.env
+.env.local
+*.local
+
+# Node / Next / Vercel (moor-intelligence/chatbot-ui)
+node_modules/
+.next/
+.vercel/
+
+# Große, regenerierbare Pipeline-Daten
+moor-intelligence/fnr_pipeline/data/
+vhs_pipeline/data/raw/
+vhs_pipeline/data/processed/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

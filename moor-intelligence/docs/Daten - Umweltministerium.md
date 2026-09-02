@@ -1,0 +1,30 @@
+Daten \- Umweltministerium  
+Links:  
+[https://www.bundesumweltministerium.de/themen/naturschutz/moorschutz](https://www.bundesumweltministerium.de/themen/naturschutz/moorschutz)  
+[https://www.regierung-mv.de/Landesregierung/lm/Umwelt/Nachhaltige-Entwicklung/Schutz-und-Nutzung-der-Moore-in-MV](https://www.regierung-mv.de/Landesregierung/lm/Umwelt/Nachhaltige-Entwicklung/Schutz-und-Nutzung-der-Moore-in-MV)  
+[https://www.umweltbundesamt.de/publikationen?keys=\&topics=117940\&series=All\&Availability=All\&field\_target\_groups=All\&language=All\&sort\_bef\_combine=date\_DESC](https://www.umweltbundesamt.de/publikationen?keys=&topics=117940&series=All&Availability=All&field_target_groups=All&language=All&sort_bef_combine=date_DESC)  
+[https://www.moorfutures.de/ueber-moorfutures](https://www.moorfutures.de/ueber-moorfutures)  
+[https://www.umwelt.nrw.de/](https://www.umwelt.nrw.de/)  
+[https://www.umwelt.nrw.de/themen/umwelt/umweltzustand-und-umweltinformationen](https://www.umwelt.nrw.de/themen/umwelt/umweltzustand-und-umweltinformationen)  
+[https://www.umweltportal.nrw.de/](https://www.umweltportal.nrw.de/)  
+[https://www.z-u-g.org/foerderung/pilotvorhaben-moorbodenschutz/](https://www.z-u-g.org/foerderung/pilotvorhaben-moorbodenschutz/)  
+[https://www.regierung-mv.de/Landesregierung/lm/Umwelt/Boden/](https://www.regierung-mv.de/Landesregierung/lm/Umwelt/Boden/)  
+[https://moor-net.de/moorschutzdatenbank/projekte](https://moor-net.de/moorschutzdatenbank/projekte)  
+https://moor-net.de/moorschutz\#moorschutzprojekte  
+[https://projekte.fnr.de/projektverzeichnis](https://projekte.fnr.de/projektverzeichnis)  
+[https://projekte.fnr.de/projektverzeichnis](https://projekte.fnr.de/projektverzeichnis)  
+[https://mooris-niedersachsen.de/?pgId=12](https://mooris-niedersachsen.de/?pgId=12)  
+[https://lfu.brandenburg.de/lfu/de/aufgaben/boden/moorschutz/moorschutzprojekte/](https://lfu.brandenburg.de/lfu/de/aufgaben/boden/moorschutz/moorschutzprojekte/)
+
+* FNR – Fachagentur Nachwachsende Rohstoffe: [Projektdatenbank der FNR](https://www.fnr.de/projektfoerderung/projektdatenbank-der-fnr)  
+* MoorIS – [Moorinformationssystem für Niedersachsen: Moorprojekte](https://mooris-niedersachsen.de/?pgId=12)  
+* LfU – Landesamt für Umwet Brandenburg: [Moorschutzprojekte](https://lfu.brandenburg.de/lfu/de/aufgaben/boden/moorschutz/moorschutzprojekte/)  
+* Thünen-Institut, Institut für Agrarklimaschutz: [Aktuelle Projekte](https://www.thuenen.de/de/fachinstitute/agrarklimaschutz/projekte)  
+* Peatland Science Center: [Forschungsprojekte](https://www.hswt.de/forschung/forschungseinrichtungen/institut-fuer-oekologie-und-landschaft/peatland-science-center#c4039)  
+* Greifswald Moor Centrum: [Projektübersicht](https://greifswaldmoor.de/projekte.html)  
+* Succow Stiftung: [Moorschutz und Klimaschutz](https://www.succow-stiftung.de/moor-klima)  
+* Moorwissen: [Projekte und Praxisbeispiele](https://moorwissen.de/projekte-und-praxis.html)  
+* HNEE – Hochschule für nachhaltige Entwicklung Eberswalde: [Forschungs- und Transferprojekte zum Themenfeld Moor](https://www.hnee.de/de/Fachbereiche/Landschaftsnutzung-und-Naturschutz/Team/Professuren/Prof.-Dr.-Vera-Luthardt/Moorschutz-AG/Forschungs-und-Transferprojekte/Forschungs-und-Transferprojekte-zum-Themenfeld-Moor-E6402.htm)  
+* NABU – Naturschutzbund Deutschland e.V.: [Moorschutz – Aktionen & Projekte](https://www.nabu.de/natur-und-landschaft/moore/17800.html)  
+* BUND – Bund für Umwelt- und Naturschutz Deutschland: [Leben ins Moor](https://www.bund.net/spenden-und-unterstuetzen/unsere-spendenprojekte/spendenprojekt-moorschutz/wir-schuetzen-moore-im-ganzen-land/)
+
