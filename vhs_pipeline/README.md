@@ -37,6 +37,33 @@ Output in `data/processed/`:
 Exit-Code `0` nur wenn **alle** Quellen fatal-frei sind und keine
 Namespace-Kollision vorliegt.
 
+## Embedding + Vector-Store (`build_index.py`)
+
+Läuft **nach** `run.py`, gescoped auf **einen Pinecone-Namespace pro Quelle**
+(Default = `namespace`-Feld der Records, z. B. `vhs/berlin`).
+
+```bash
+python -m vhs_pipeline.build_index --source berlin                 # voll
+python -m vhs_pipeline.build_index --source berlin --limit 50      # Test
+python -m vhs_pipeline.build_index --source berlin --dry-run       # nur Chunk/Metadata zeigen
+python -m vhs_pipeline.build_index --source berlin --namespace vhs/berlin
+```
+
+- **1 Vektor pro Kurs**, `id = uid`. Chunk = `build_course_text` (Titel, VHS/Bezirk,
+  DVV-Bereich/-Label, Format, Niveau, Termine, Ort, Preis, Stichworte, Kursleitung,
+  dann Beschreibung + Zusatzinfo; `_truncate` bei 6000 Zeichen).
+- **Metadata** (Filter + Rendern ohne DB): `uid, guid, source_id, provider_id/name,
+  course_number, title, dvv_code/bereich/label, event_type, level, course_format,
+  start_date/end_date, weekdays[], time_start/end, session_count, online, city,
+  region, postal_code, price_amount/reduced/free, capacity_max, status, booking_url,
+  semester, content_hash, lat/lon, keywords[], text` (≤ 3500 Zeichen).
+- **Inkrementell:** liest bestehende `content_hash` im Namespace → embeddet nur
+  neue/geänderte `uid`, löscht verschwundene (`--no-delete` deaktiviert das).
+- **Config** in `vhs_pipeline/.env` (gitignored): `PINECONE_API_KEY`,
+  `PINECONE_INDEX_HOST`, `EMBED_MODEL` (default `text-embedding-3-small`),
+  `EMBED_DIM` (default `512`, muss == Index-Dimension). `OPENAI_API_KEY` aus der Umgebung.
+- Bricht ab, wenn `describe_index_stats.dimension` ≠ `EMBED_DIM`.
+
 ## Eine VHS hinzufügen
 
 **Spricht Open-vhs** (XML nach <https://api.vhs-kursfinder.de/openvhs-1.2>) —

@@ -465,3 +465,165 @@ und 8 danach.
 - Kursübersicht (redaktionell): <https://www.berlin.de/vhs/kurse/>
 - DVV‑Systematik / VHS‑Statistik (DIE): <https://www.volkshochschule.de/vhs-welt/die-vhs-kennenlernen/themenbereiche.php>
 - Moor Intelligence (analysiert): `github.com/Tim-Projekt/Moor-Intelligence` → `moor-intelligence/`
+
+---
+
+## 8 · Bundesweite Quelle + Adapter‑Architektur + Pipeline‑Testlauf (Update 2026‑09‑02)
+
+### 8.1 Open‑vhs / `api.volkshochschule.de` — Analyse `[F]`
+
+| Frage | Ergebnis |
+|---|---|
+| Was ist es? | **`api.volkshochschule.de` = Upload‑Seite** des *vhs‑Kursfinder*. VHS *pushen* ihren Vollkatalog als **Open‑vhs‑XML** an `POST https://api.volkshochschule.de/1/upload` (`multipart/form-data`: `file` + `access_token`). Phoenix‑Web‑App, keine öffentliche REST‑API. |
+| Öffentliche Lese‑/Query‑/Download‑API? | **Nein.** Die Spezifikation kennt nur den Upload. Der vhs‑Kursfinder (`volkshochschule.de/kursfinder`) hat eine Such‑UI, aber kein dokumentiertes/öffentliches Abfrage‑Backend. Kein `openapi.json`; jeder unbekannte Pfad → `{"error":"unknown"}`. |
+| Format‑Spezifikation | Open‑vhs **1.2** (0.9–1.1 noch im Feld): <https://api.vhs-kursfinder.de/openvhs-1.2> + `openvhs-1.2.xml` (Beispiel → `vhs_pipeline/tests/fixtures/`) + `openvhs-1.2.xsd`. Belegungsstatus‑Delta: `openvhs-belegungsstatus-1.0`. |
+| Anbieter‑Identifikation | XML `export/ersteller` (`guid` + `name`) + zugeteilter Access‑Token. **Eine Datei pro VHS.** |
+| Update‑Mechanik | **Stammdaten: nur Vollabzug** (jeder Upload ersetzt den kompletten Bestand des Erstellers, keine Diffs). **Belegungsstatus: stündliches Delta** (`guid` + `minimale/aktuelle/maximale_teilnehmerzahl`). |
+| Abdeckung | Laut DVV speisen **> 50 % aller ~890 VHS** in den vhs‑Kursfinder ein — aber *hinein*, nicht abrufbar heraus. |
+| Encoding / Validierung | UTF‑8, `xs:*`‑Typen, `guid` eindeutig über den ganzen Export, `webadresse` ≥ 1× Pflicht (ab 1.2), `dozent` **in 1.2 entfernt**. |
+
+**Kanonische Open‑vhs‑`veranstaltung`‑Felder** (Beispiel‑XML verifiziert): `guid`, `nummer`,
+`name`, `untertitel*`, `dvv_kategorie[@version]`, `merkmale/merkmal(name,wert)*` (u. a.
+`kursart_digital`, `anmeldung_kostenlos`, `barrierefreies_lernen`, `vhscloud_kurs`), `level`,
+`minimale|aktuelle|maximale_teilnehmerzahl`, `anzahl_termine`, `beginn_datum`, `dauer`,
+`ende_datum`, `wochentag*`, `zielgruppe*`, `schlagwort*`, `zertifikat*(name,text)`,
+`text*(eigenschaft,text)`, `veranstaltungsort(name, adresse(land,plz,ort,ortsteil,strasse),
+barrierefrei)`, `termin*(beginn_datum,beginn_uhrzeit,ende_uhrzeit)`, `preis(betrag,
+rabatt_moeglich, zusatz*)`, `webadresse+(typ∈{website,website_mobile,attachment,picture,video},
+name,uri)`.
+
+**Unterschiede Berlin‑Feed ↔ kanonisches Open‑vhs** `[F]`:
+
+| | Berlin `Kurse.json` | Open‑vhs 1.2 |
+|---|---|---|
+| Serialisierung | JSON, Wurzel `veranstaltungen.veranstaltung[]` | XML, Namespace `http://www.dvv-vhs.de/Open-VHS` |
+| Ort + Termine | verschachtelt `ortetermine{adresse[],termin[]}` (Adresse je Sitzung wiederholt) | flach: `veranstaltungsort` + wiederholtes `termin` |
+| Berlin‑Extras | `bezirk`, `veranstaltungsart`, `anmeldung`, `ansprechperson`, `dozent`, `adresse.raum`, `adresse.behindertenzugang`, `adresse.breitengrad/laengengrad` | — (`dozent` ab 1.2 raus; Geo nur via Geocoding) |
+| Fehlt in Berlin | `level`, `zertifikat`, `dauer`, `ortsteil`, reiche `merkmale` | — |
+| `text.eigenschaft` | `"Beschreibung"` / `"Zusatzinformation"` | `"text"` |
+| DVV‑Feincodes | zusätzlich `0.xx` (übergreifend) und `7.xx` (Alphabetisierung/Grundbildung) | Standard 1–6 |
+
+→ Berlin ist ein **älterer Open‑vhs‑Dialekt + Berlin‑Erweiterungen**, als JSON serialisiert.
+Generischer Open‑vhs‑Adapter und Berlin‑Adapter teilen ~90 % Feldlogik.
+
+### 8.2 Konsequenz für „bundesweit"
+
+- Kein Ein‑Endpunkt‑Vollabzug → **Source‑Registry** (`vhs_pipeline/sources.yaml`): pro
+  Anbieter/Stadt ein Eintrag mit Feed‑URL + `namespace` + Adapter‑`kind`.
+- **Ein generischer `openvhs`‑Adapter** deckt jede Quelle ab, die Open‑vhs‑XML publiziert
+  (viele Städte/Kreise/Landesverbände als Open‑Data‑Export). Neue solche Quelle = **nur ein
+  Registry‑Eintrag, kein Code**.
+- Bespoke‑Quelle = ~40‑Zeilen‑Adapter‑Subklasse.
+- Berlin heute die reichhaltigste öffentliche Einzelquelle (~10.230 Kurse, CC‑BY, stündlich).
+
+### 8.3 Implementierte Architektur (`vhs_pipeline/`)
+
+```
+sources.yaml (Registry)
+   └─ je Quelle:  fetch ─► SourceAdapter.iter_raw ─► SourceAdapter.to_course ─► enrich(DVV) ─► validate ─► data/processed/<id>.jsonl
+                  adapters/base.py        adapters/{berlin,openvhs}.py       enrich.py       validate.py
+                                                     ▼
+                                        models.py — Course (48 Felder, schema_version="vhs-canonical-1")
+                                        uid = "{source_id}:{provider.id}:{guid}"   namespace = "vhs/<quelle>"
+```
+
+| Datei | Rolle | Reuse aus Moor |
+|---|---|---|
+| `utils.py` | rate‑limited `fetch` + Retry, JSON/JSONL‑IO, `strip_html`, `as_list`, `to_decimal/int` | **Adapt** `fnr_pipeline/utils.py` |
+| `models.py` | kanonisches `Course` + `Provider/Session/Venue/Price/Capacity`, `content_hash`, `make_uid`, Semester/Status‑Ableitung | **New** (Denke aus `03_export.py`) |
+| `adapters/base.py` | `SourceAdapter`‑ABC: `fetch → snapshot → iter_raw → to_course` | **New** |
+| `adapters/openvhs.py` | generischer Open‑vhs‑XML‑Adapter (0.9–1.2), stdlib `ElementTree`, `xml_to_dict` | **New** |
+| `adapters/berlin.py` | Berlin‑Open‑Data‑JSON‑Adapter; 12 Bezirks‑VHS + Servicezentrum → je eigener `Provider` in `vhs/berlin` | **New** (löst `search-fnr-website`‑Rolle ab) |
+| `registry.py` / `sources.yaml` | Quellenverwaltung (`enabled`, `url`/`local_path`, `namespace`, `encoding`, `region`) | **New** |
+| `enrich.py` / `dvv_systematik.json` | `dvv_code → Bereich (1–6, sicher) + Feinlabel` (Feinlabels `verify:true`, aus DIE‑Systematik nachzuziehen) | **New** (ersetzt `classify_namespace`) |
+| `validate.py` | Vollständigkeit · Schema‑Konsistenz · Normalisierung · Duplikate · stabile IDs · Namespace‑Isolation; Bericht + Exit‑Code | **New** |
+| `run.py` | Orchestrator + Manifest; `--only`, `--no-fetch`, `--limit` | **Adapt** `fnr_pipeline/run.py` |
+| `build_index.py` | Embedding (`text-embedding-3-small`, 512 dim) + Pinecone‑Upsert **je Namespace**; 1 Vektor/Kurs, `content_hash`‑Resume, Delete verschwundener `uid` | **Adapt** `fnr_pipeline/04_rag_pipeline.py` |
+
+Namespace‑Regel: **genau ein `namespace` pro Quelle**; `validate_global` bricht bei Kollision ab.
+Berlins Bezirke bleiben ein Namespace, sind aber über `provider.id` (`berlin-mitte`, …) filterbar.
+
+### 8.4 Testlauf `python -m vhs_pipeline.run` `[F]` (2026‑09‑02)
+
+```
+source            ns                courses  prov  skip   ok
+berlin            vhs/berlin          10230    13     0  yes     (Live‑Fetch 49 MB → parse+validate 23 s)
+openvhs_fixture   vhs/_fixture            6     1     0  yes     (DVV‑Beispiel‑XML: Fulda/Berlin/Mainz/Ravensburg)
+TOTAL                                 10236   all_ok=True
+```
+
+**Validierung Berlin:** kritische Felder (`uid,source_id,namespace,guid,title,booking_url`)
+100 %; `description` 99,6 %, `dvv_bereich` 100 %, `start_date` 100 %, `sessions` 99,6 %,
+`price` 100 %, Geo 81,9 %, `instructors` 99,1 %. **0 uid‑Kollisionen** (auch global), 0 guid‑
+Wiederholungen, 2 Soft‑Dupes (`provider+nummer+start_date`, real). HTML‑Rückstände 0, alle
+Datumswerte ISO, alle `booking_url` absolut, ein Namespace, ein kanonisches Key‑Set (48).
+Format 7748 Präsenz / 2463 Online / 19 Blended · Status 8530 frei / 1517 voll / 183 unbekannt.
+
+### 8.4b Embedding‑Lauf `python -m vhs_pipeline.build_index --source berlin` `[F]` (2026‑09‑02)
+
+- Vector‑Store: Pinecone `vhs-kurse` (dense, **512 dim**, aws us‑east‑1). Embedding‑Modell
+  `text-embedding-3-small` @ 512 (Index‑Dimension per `describe_index_stats` verifiziert).
+- **10.230 Vektoren im Namespace `vhs/berlin`** (1 Vektor/Kurs, `id = uid`), ~5,5 min
+  (80 Embedding‑Batches à 128, ~100 Upsert‑Batches à 100). `totalVectorCount = 10230`.
+- Metadata pro Vektor: 34 Felder (s. `vhs_pipeline/README.md`) inkl. `booking_url`,
+  `content_hash`, `dvv_bereich`, `course_format`, `price_amount`, `status`, `weekdays[]`,
+  `keywords[]`, `lat/lon`, `text` (≤ 3500 Z.).
+- Retrieval‑Stichprobe (Cosine): „spanisch für anfänger online" → Spanisch‑A1.1‑Online‑Kurse
+  (0,69); „bildungsurlaub fotografie" → Bildungszeit‑Fotokurse (0,65); „excel grundlagen für
+  den beruf" → Excel‑Grundlagen (0,66). Filter‑Metadata (Bezirk, Format, Preis) vorhanden.
+- Config in `vhs_pipeline/.env` (gitignored): `PINECONE_API_KEY`, `PINECONE_INDEX_HOST`,
+  `EMBED_MODEL`, `EMBED_DIM`. `OPENAI_API_KEY` aus der Umgebung.
+
+**Offen / To‑do:**
+- DVV‑Feinlabels (`dvv_systematik.json`, `verify:true`) durch die offizielle DIE‑Systematik ersetzen.
+- Reale bundesweite Quellen ins Registry (Bonn‑Open‑Data zuerst prüfen: echtes Open‑vhs‑XML? sonst
+  kleiner Adapter). Templates in `sources.yaml`. Je Quelle: `run.py` → `build_index.py --source <id>`
+  (eigener Namespace `vhs/<id>`).
+- Optionaler stündlicher `status`‑Refresh über das Open‑vhs‑Belegungsstatus‑Delta (ohne Vollabzug).
+- Agent‑Tool `search-vhs-courses.ts` (aus `search-fnr-projects.ts`) gegen Namespace `vhs/berlin`
+  + Metadata‑Filter (Bezirk/Format/Preis/Datum) — Retrieval‑Schicht steht damit.
+
+### 8.5 Quellen (Update)
+
+- Open‑vhs‑Spezifikation 1.2: <https://api.vhs-kursfinder.de/openvhs-1.2> · Upload:
+  `https://api.volkshochschule.de/1/upload` · vhs‑Kursfinder: <https://www.volkshochschule.de/kursfinder.php>
+- Bonn‑Open‑Data (Kandidat): <https://opendata.bonn.de/dataset/programm-kurse-veranstaltungen-volkshochschule-vhs>
+
+---
+
+## 9 · Agent-Integration (Update 2026‑09‑02)
+
+Neuer App‑Ordner **`chatbot-ui/`** — Kopie des Moor‑Next.js‑Templates, zum VHS‑Agenten umgebaut.
+
+### Änderungen
+
+| Bereich | Änderung |
+|---|---|
+| **Retrieval‑Tool** | `lib/ai/tools/search-vhs-courses.ts` (aus `search-fnr-projects.ts`): OpenAI‑Embedding `text-embedding-3-small` @ **512 dim** → Pinecone `POST /query` gegen Namespace `PINECONE_NAMESPACE` (`vhs/berlin`). Metadata‑Filter: `district`(→`region`), `format`, `online`, `dvv_bereich`, `free`, `max_price`(→`price_amount $lte`), `start_after`/`start_before`(→`start_date`), `weekday`(→`weekdays $in`). Ergebnis‑Formatierung mit Kursnr., VHS/Bezirk, Termin, Preis+ermäßigt, Status, `booking_url`. |
+| **Entfernt** | `search-fnr-projects.ts`, `search-fnr-website.ts`, `get-weather.ts` + Referenzen in `lib/types.ts`, `components/chat/message.tsx`, `route.ts`. `web-search.ts` bleibt (Tertiärquelle), Description auf VHS‑Kontext. |
+| **System Prompt** | `lib/ai/prompts.ts` komplett neu: Rolle „Kursberatungs‑Assistent der Berliner VHS", Primer (12 Bezirks‑VHS, DVV‑Bereiche, Semester `H`/`F`, Formate, Entgelt/Ermäßigung, GER‑Stufen), Arbeitsweise (1 Rückfrage bei vagem Wunsch, dann suchen), Belegpflicht (Kursnr.+Link, nichts erfinden), Katalogstand‑Caveat. `<tool_guidance>` für `searchVhsCourses` + `searchWeb`. `titlePrompt` auf VHS‑Beispiele. Agent‑Loop (`route.ts`: `stepCountIs(20)`, Fallback‑Synthese, Approval‑Flow, resumable streams) **unverändert**. |
+| **Modelle** | unverändert: OpenRouter‑Gateway, Default `google/gemini-3.7-flash`, Titel `anthropic/claude-haiku-4-5`. |
+| **DB** | Neuer Supabase‑Transaction‑Pooler (`aws-0-eu-west-2.pooler.supabase.com:6543`) in `chatbot-ui/.env.local`. `migrate.ts`/`queries.ts` haben bereits `prepare:false` + SSL → pooler‑kompatibel. `pnpm db:migrate` erfolgreich (alle Tabellen angelegt). |
+| **Env** (`chatbot-ui/.env.local`, gitignored) | `AUTH_SECRET` (neu generiert), `POSTGRES_URL` (neu), `OPENROUTER_API_KEY` + `OPENAI_API_KEY` + `LINKUP_API_KEY` (aus Moor‑Projekt), `PINECONE_API_KEY` + `PINECONE_INDEX_HOST` + `PINECONE_NAMESPACE=vhs/berlin`. Optional weggelassen: `REDIS_URL` (resumable streams — Fallback greift), `BLOB_*` (Uploads), `BREVO_*` (Reset‑Mails), alle `GOOGLE_VERTEX_*`. |
+
+### Start & Verifikation `[F]` (localhost)
+
+```bash
+cd chatbot-ui
+pnpm install            # packageManager auf pnpm@11.8.0 gesetzt
+pnpm db:migrate         # → Migrations completed
+pnpm dev                # → http://localhost:3000  (Next 16, Turbopack, "Ready in 17.8s")
+```
+
+- Guest‑Auth‑Flow (`/api/auth/guest`) legt Gast‑User in Supabase an → `User=2, Chat=2, Message_v2=4` nach den Tests.
+- End‑to‑End‑Chat („Yogakurs in Pankow, abends"): Modell ruft `searchVhsCourses` mit
+  `{query:"Yoga abends", filter:{district:"Pankow"}}` → Pinecone liefert echte VHS‑Pankow‑Kurse →
+  strukturierte Antwort mit Kursnummern, Abendterminen, Preisen (inkl. ermäßigt),
+  `CourseDetail.aspx`‑Buchungslinks, Katalogstand‑Hinweis und einer gezielten Rückfrage.
+- Bekannte, unkritische Dev‑Logs: BotId „[Dev Only] … will return HUMAN"; OpenRouter
+  „reasoning_details … missing signatures" (Gemini thought‑signatures, bricht Streaming nicht).
+
+### Offen
+- `sharp` postinstall lief nicht durch (nur Next‑Bildoptimierung betroffen; Chat unberührt).
+- Optional: `REDIS_URL` für resumable streams, Branding (`greeting.tsx`, `suggested-actions.tsx`,
+  OpenGraph), Kurs‑Karten‑Komponente statt reinem Markdown, `search-vhs-live` (ASP.NET‑Sekundärtool).
