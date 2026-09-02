@@ -3,61 +3,66 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCity, isKnownCity } from "@/lib/cities";
 import { getCourse } from "@/lib/db/courses";
+import { bereichLabel, formatLabel, getMessages, hreflang, t } from "@/lib/i18n";
+import { isLocale, type Locale } from "@/lib/i18n/config";
 import {
   bereichSlug,
   courseSlug,
-  FORMAT_LABEL,
   formatDate,
   formatPrice,
   formatSchedule,
   guidFromCourseSlug,
 } from "@/lib/seo";
 
+type Props = { params: Promise<{ locale: string; city: string; slug: string }> };
 
-
-type Props = { params: Promise<{ city: string; slug: string }> };
-
-async function load(slug: string, courseSlugParam: string) {
-  if (!isKnownCity(slug)) {
+async function load(locale: string, slug: string, courseSlugParam: string) {
+  if (!(isLocale(locale) && isKnownCity(slug))) {
     return null;
   }
   const city = getCity(slug);
-  const guid = guidFromCourseSlug(courseSlugParam);
-  const course = await getCourse(city.slug, guid);
+  const course = await getCourse(city.slug, guidFromCourseSlug(courseSlugParam));
   if (!course) {
     return null;
   }
-  return { city, course };
+  return { locale: locale as Locale, city, course };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   "use cache";
-  const { city: slug, slug: cslug } = await params;
-  const r = await load(slug, cslug);
+  const { locale, city: slug, slug: cslug } = await params;
+  const r = await load(locale, slug, cslug);
   if (!r) {
     return {};
   }
-  const { city, course } = r;
+  const { locale: loc, city, course } = r;
+  const m = getMessages(loc);
   const desc =
     (course.description ?? "").replace(/\s+/g, " ").slice(0, 155).trim() ||
-    `${course.title} – VHS-Kurs in ${city.name}.`;
-  const canonical = `/${city.slug}/kurs/${courseSlug(course.title, course.guid)}`;
+    t(m.course.metaFallback, { title: course.title, city: city.name });
+  const title = `${course.title} – ${t(m.course.titleSuffix, {
+    region: course.region ?? city.name,
+  })}`;
   return {
-    title: `${course.title} – VHS ${course.region ?? city.name}`,
+    title,
     description: desc,
-    alternates: { canonical },
-    openGraph: { title: course.title, description: desc, url: canonical },
+    alternates: hreflang(
+      loc,
+      `/${city.slug}/kurs/${courseSlug(course.title, course.guid)}`
+    ),
+    openGraph: { title: course.title, description: desc, type: "website" },
   };
 }
 
 export default async function CoursePage({ params }: Props) {
   "use cache";
-  const { city: slug, slug: cslug } = await params;
-  const r = await load(slug, cslug);
+  const { locale, city: slug, slug: cslug } = await params;
+  const r = await load(locale, slug, cslug);
   if (!r) {
     notFound();
   }
-  const { city, course } = r;
+  const { locale: loc, city, course } = r;
+  const m = getMessages(loc);
   const data = course.data as Record<string, any>;
   const sessions: { date?: string; start?: string; end?: string }[] =
     Array.isArray(data.sessions) ? data.sessions : [];
@@ -104,6 +109,13 @@ export default async function CoursePage({ params }: Props) {
       : {}),
   };
 
+  const statusText =
+    course.status === "available"
+      ? m.course.statusAvailable
+      : course.status === "full"
+        ? m.course.statusFull
+        : m.course.statusUnknown;
+
   return (
     <article className="space-y-6">
       {/* biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD */}
@@ -113,17 +125,17 @@ export default async function CoursePage({ params }: Props) {
       />
 
       <nav className="text-muted-foreground text-sm">
-        <Link className="hover:underline" href={`/${city.slug}`}>
-          VHS {city.name}
+        <Link className="hover:underline" href={`/${loc}/${city.slug}`}>
+          {t(m.bereich.breadcrumbCity, { city: city.name })}
         </Link>
         {bereich ? (
           <>
             {" / "}
             <Link
               className="hover:underline"
-              href={`/${city.slug}/${bereichSlug(bereich)}`}
+              href={`/${loc}/${city.slug}/${bereichSlug(bereich)}`}
             >
-              {bereich}
+              {bereichLabel(loc, bereich)}
             </Link>
           </>
         ) : null}
@@ -137,7 +149,7 @@ export default async function CoursePage({ params }: Props) {
         <p className="mt-2 text-muted-foreground text-sm">
           {[
             `VHS ${course.region ?? city.name}`,
-            FORMAT_LABEL[course.courseFormat] ?? course.courseFormat,
+            formatLabel(loc, course.courseFormat),
             course.level ? `Niveau ${course.level}` : null,
             course.eventType,
             course.courseNumber ? `Kursnr. ${course.courseNumber}` : null,
@@ -148,33 +160,31 @@ export default async function CoursePage({ params }: Props) {
       </header>
 
       <dl className="grid gap-x-6 gap-y-2 text-sm sm:grid-cols-[10rem_1fr]">
-        <dt className="text-muted-foreground">Termine</dt>
-        <dd>{formatSchedule(course) || "siehe Kursseite der VHS"}</dd>
-        <dt className="text-muted-foreground">Entgelt</dt>
+        <dt className="text-muted-foreground">{m.course.dtTermine}</dt>
+        <dd>{formatSchedule(course) || m.course.termineFallback}</dd>
+        <dt className="text-muted-foreground">{m.course.dtEntgelt}</dt>
         <dd>
           {formatPrice(course.priceAmount, course.priceReduced, course.priceFree)}
         </dd>
-        <dt className="text-muted-foreground">Ort</dt>
+        <dt className="text-muted-foreground">{m.course.dtOrt}</dt>
         <dd>
           {course.online
-            ? `Online${venue.room ? ` (${venue.room})` : ""}`
-            : [venue.name, venue.street, venue.zip && `${venue.zip} ${venue.city ?? ""}`]
+            ? `${m.course.online}${venue.room ? ` (${venue.room})` : ""}`
+            : [
+                venue.name,
+                venue.street,
+                venue.zip && `${venue.zip} ${venue.city ?? ""}`,
+              ]
                 .filter(Boolean)
                 .join(", ") || `VHS ${course.region ?? city.name}`}
         </dd>
-        <dt className="text-muted-foreground">Status</dt>
-        <dd>
-          {course.status === "available"
-            ? "laut letztem Katalogstand buchbar"
-            : course.status === "full"
-              ? "laut letztem Katalogstand ausgebucht"
-              : "Verfügbarkeit bitte bei der VHS prüfen"}
-        </dd>
+        <dt className="text-muted-foreground">{m.course.dtStatus}</dt>
+        <dd>{statusText}</dd>
       </dl>
 
       {course.description ? (
         <section>
-          <h2 className="font-semibold text-lg">Kursbeschreibung</h2>
+          <h2 className="font-semibold text-lg">{m.course.descriptionH2}</h2>
           <div className="mt-2 whitespace-pre-line text-sm leading-relaxed">
             {course.description}
           </div>
@@ -183,7 +193,7 @@ export default async function CoursePage({ params }: Props) {
 
       {sessions.length > 1 ? (
         <section>
-          <h2 className="font-semibold text-lg">Alle Termine</h2>
+          <h2 className="font-semibold text-lg">{m.course.allDatesH2}</h2>
           <ul className="mt-2 columns-2 text-sm">
             {sessions.map((s, i) => (
               <li key={`${s.date}-${i}`}>
@@ -203,15 +213,13 @@ export default async function CoursePage({ params }: Props) {
             rel="nofollow noopener"
             target="_blank"
           >
-            Zur Anmeldung bei der VHS {course.region ?? city.name}
+            {t(m.course.bookCta, { region: course.region ?? city.name })}
           </a>
         </p>
       ) : null}
 
       <p className="border-t pt-4 text-muted-foreground text-xs">
-        Angaben ohne Gewähr, Stand des Katalog-Imports. Verbindliche Informationen
-        und die Anmeldung findest du auf der verlinkten Kursseite der{" "}
-        {city.providerLabel}.
+        {t(m.course.disclaimer, { provider: city.providerLabel })}
       </p>
     </article>
   );

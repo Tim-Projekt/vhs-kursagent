@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { isKnownCity } from "./lib/cities";
 import { guestRegex, isDevelopmentEnvironment } from "./lib/constants";
+import { isLocale, LOCALE_COOKIE, pickLocale } from "./lib/i18n/config";
 
 /** App-Bereiche, die Auth brauchen. Alles andere unter /<segment> ist die
  *  öffentliche, indexierbare Stadt-Seite (die Seite selbst macht notFound()
@@ -35,6 +37,17 @@ export async function proxy(request: NextRequest) {
   }
 
   if (isPublicMarketingPath(pathname)) {
+    // Legacy-URL ohne Locale-Präfix (/berlin, /berlin/sprachen) → /<locale>/…
+    const seg = pathname.split("/").filter(Boolean);
+    if (seg.length >= 1 && !isLocale(seg[0]) && isKnownCity(seg[0])) {
+      const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value;
+      const locale = isLocale(cookieLocale)
+        ? cookieLocale
+        : pickLocale(request.headers.get("accept-language"));
+      const url = request.nextUrl.clone();
+      url.pathname = `/${locale}${pathname}`;
+      return NextResponse.redirect(url, 308);
+    }
     return NextResponse.next();
   }
 

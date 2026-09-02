@@ -17,7 +17,7 @@ export function Preview() {
       <div className="flex h-14 shrink-0 items-center gap-2 bg-primary px-5 text-primary-foreground">
         <FnrMark size={16} />
         <span className="font-medium text-[13px] tracking-wide">
-          FNR-Assistent
+          kursspot
         </span>
       </div>
 

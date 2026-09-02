@@ -70,7 +70,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                 <SidebarMenuButton
                   asChild
                   className="size-8 !px-0 items-center justify-center group-data-[collapsible=icon]:group-hover/logo:opacity-0"
-                  tooltip="FNR-Assistent"
+                  tooltip="kursspot"
                 >
                   <Link href="/" onClick={() => setOpenMobile(false)}>
                     <FnrMark size={16} />

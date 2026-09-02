@@ -11,11 +11,11 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"
   ),
   title: {
-    default: "VHS-Kursberater – Volkshochschulkurse finden",
-    template: "%s · VHS-Kursberater",
+    default: "kursspot – Kurse an Volkshochschulen finden",
+    template: "%s · kursspot",
   },
   description:
-    "Finde den passenden Volkshochschulkurs: semantische Suche und KI-Beratung über den aktuellen Kurskatalog. Direkt zur Anmeldung bei deiner VHS.",
+    "Finde den passenden Kurs an einer Volkshochschule: semantische Suche und KI-Beratung über den aktuellen Kurskatalog. Direkt zur Anmeldung bei der VHS.",
 };
 
 export const viewport = {

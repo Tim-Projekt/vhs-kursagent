@@ -27,14 +27,15 @@ export const berlin: City = {
   districtLabel: "Bezirk",
   districts: BERLIN_DISTRICTS,
   approxCourseCount: 10_000,
-  primer: `## Kontext: ${"die Berliner Volkshochschulen"}
+  primer: `## Context: the Berlin adult-education centres (Volkshochschulen)
 <context>
-- **Träger:** Jeder der 12 Berliner Bezirke betreibt eine eigene Volkshochschule (VHS Mitte, VHS Friedrichshain-Kreuzberg, VHS Pankow, VHS Charlottenburg-Wilmersdorf / "City West", VHS Spandau, VHS Steglitz-Zehlendorf, VHS Tempelhof-Schöneberg, VHS Neukölln, VHS Treptow-Köpenick, VHS Marzahn-Hellersdorf, VHS Lichtenberg, VHS Reinickendorf). Dazu ein "Servicezentrum" (u. a. zentrale Prüfungen). Anmeldung und Entgeltordnung laufen je Bezirks-VHS.
-- **Programmstruktur (DVV-Systematik):** sechs Programmbereiche — (1) Politik – Gesellschaft – Umwelt, (2) Kultur – Gestalten, (3) Gesundheit, (4) Sprachen, (5) Arbeit – Beruf, (6) Grundbildung – Schulabschlüsse; in Berlin zusätzlich Alphabetisierung/Grundbildung und übergreifende Angebote.
-- **Semester:** Frühjahr ("F") und Herbst ("H"); das Semester steckt im Suffix der Kursnummer (z. B. "Mi302-070H").
-- **Formate:** Präsenzkurs, Online-Kurs (oft über die vhs.cloud oder BigBlueButton/Zoom), Blended Learning, Selbstlernangebote. Sonderformen: Bildungsurlaub/Bildungszeit (nach dem Berliner Bildungszeitgesetz), Einstufungsberatung (meist kostenlos), Workshops, Vorträge, Studienfahrten.
-- **Entgelt:** reguläres Entgelt + häufig ein ermäßigtes Entgelt (z. B. mit berlinpass, für Menschen mit geringem Einkommen). Einzelne Angebote sind kostenlos.
-- **Niveaus (Sprachen):** GER-Stufen A1–C2; Sprachkurse ab A1.1 brauchen keine Beratung, darüber wird eine Einstufung empfohlen.
+- **Providers:** each of Berlin's 12 boroughs runs its own Volkshochschule (VHS Mitte, VHS Friedrichshain-Kreuzberg, VHS Pankow, VHS Charlottenburg-Wilmersdorf / "City West", VHS Spandau, VHS Steglitz-Zehlendorf, VHS Tempelhof-Schöneberg, VHS Neukölln, VHS Treptow-Köpenick, VHS Marzahn-Hellersdorf, VHS Lichtenberg, VHS Reinickendorf), plus a central "Servicezentrum" (e.g. central exams). Registration and the fee schedule are handled per borough VHS.
+- **Programme structure (DVV classification):** six subject areas — (1) Society / Politics / Environment, (2) Culture & Creativity, (3) Health, (4) Languages, (5) Work & Career, (6) Basic education / school-leaving qualifications; in Berlin additionally literacy/basic education and cross-cutting offerings.
+- **Terms:** spring ("F") and autumn ("H"); the term is the suffix of the course number (e.g. "Mi302-070H").
+- **Formats:** in-person, online (often via vhs.cloud or BigBlueButton/Zoom), blended learning, self-study. Special forms: educational leave (Bildungsurlaub / Bildungszeit, under the Berlin Bildungszeitgesetz), placement advice (usually free), workshops, talks, study trips.
+- **German & integration courses:** many "Deutsch als Fremdsprache" courses; some are BAMF-funded Integrationskurse (with an Orientierungskurs module) for people entitled to them — distinct from regular German courses. Eligibility for a BAMF Integrationskurs is decided by BAMF / the immigration office, not by the VHS.
+- **Fees:** a standard fee plus, frequently, a reduced fee (e.g. with a berlinpass, for people on low income). Some offerings are free.
+- **Levels (languages):** CEFR A1–C2; language courses from A1.1 need no placement, above that a placement check is recommended.
 </context>`,
   seo: {
     tagline: "VHS-Kurse in Berlin finden – mit KI-Kursberatung",

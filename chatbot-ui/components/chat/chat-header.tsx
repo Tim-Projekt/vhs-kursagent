@@ -37,7 +37,7 @@ function PureChatHeader({
       <Link className="flex items-center gap-2" href="/">
         <FnrMark size={20} />
         <span className="hidden font-medium text-[14px] tracking-wide sm:inline">
-          FNR-Assistent
+          kursspot
         </span>
       </Link>
 

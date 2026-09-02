@@ -3,7 +3,7 @@ import "server-only";
 const BREVO_API_URL = "https://api.brevo.com/v3/smtp/email";
 
 const FROM_EMAIL = process.env.BREVO_FROM_EMAIL ?? "no-reply@fnr.de";
-const FROM_NAME = process.env.BREVO_FROM_NAME ?? "FNR-Assistent";
+const FROM_NAME = process.env.BREVO_FROM_NAME ?? "kursspot";
 
 function getAppBaseUrl() {
   if (process.env.NEXT_PUBLIC_APP_URL) {
@@ -45,10 +45,10 @@ export async function sendPasswordResetEmail({
     body: JSON.stringify({
       sender: { name: FROM_NAME, email: FROM_EMAIL },
       to: [{ email: to }],
-      subject: "Passwort zurücksetzen – FNR-Assistent",
+      subject: "Passwort zurücksetzen – kursspot",
       htmlContent: `
         <p>Hallo,</p>
-        <p>für dein Konto beim FNR-Assistenten wurde ein Zurücksetzen des Passworts angefordert. Klicke auf den folgenden Link, um ein neues Passwort zu vergeben:</p>
+        <p>für dein kursspot-Konto wurde ein Zurücksetzen des Passworts angefordert. Klicke auf den folgenden Link, um ein neues Passwort zu vergeben:</p>
         <p><a href="${resetUrl}">${resetUrl}</a></p>
         <p>Der Link ist 1 Stunde gültig. Wenn du das nicht angefordert hast, kannst du diese E-Mail ignorieren — es ändert sich nichts an deinem Konto.</p>
       `,
