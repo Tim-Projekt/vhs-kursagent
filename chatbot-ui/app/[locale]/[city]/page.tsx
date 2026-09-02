@@ -7,6 +7,8 @@ import { bereichLabel, formatLabel, getMessages, hreflang, t } from "@/lib/i18n"
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { bereichSlug } from "@/lib/seo";
 
+export const revalidate = 3600;
+
 type Props = { params: Promise<{ locale: string; city: string }> };
 
 function resolve(locale: string, slug: string) {
@@ -16,7 +18,6 @@ function resolve(locale: string, slug: string) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  "use cache";
   const { locale, city: slug } = await params;
   const r = resolve(locale, slug);
   if (!r) {
@@ -36,7 +37,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CityLandingPage({ params }: Props) {
-  "use cache";
   const { locale, city: slug } = await params;
   const r = resolve(locale, slug);
   if (!r) {

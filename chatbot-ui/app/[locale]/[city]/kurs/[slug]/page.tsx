@@ -14,6 +14,8 @@ import {
   guidFromCourseSlug,
 } from "@/lib/seo";
 
+export const revalidate = 3600;
+
 type Props = { params: Promise<{ locale: string; city: string; slug: string }> };
 
 async function load(locale: string, slug: string, courseSlugParam: string) {
@@ -29,7 +31,6 @@ async function load(locale: string, slug: string, courseSlugParam: string) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  "use cache";
   const { locale, city: slug, slug: cslug } = await params;
   const r = await load(locale, slug, cslug);
   if (!r) {
@@ -55,7 +56,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CoursePage({ params }: Props) {
-  "use cache";
   const { locale, city: slug, slug: cslug } = await params;
   const r = await load(locale, slug, cslug);
   if (!r) {

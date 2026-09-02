@@ -4,6 +4,8 @@ import { listBereiche, listCourseSlugsData } from "@/lib/db/courses";
 import { LOCALES } from "@/lib/i18n/config";
 import { bereichSlug, courseSlug } from "@/lib/seo";
 
+export const revalidate = 3600;
+
 const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
 function withLocales(pathAfterLocale: string) {
@@ -15,7 +17,6 @@ function withLocales(pathAfterLocale: string) {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  "use cache";
   const entries: MetadataRoute.Sitemap = [];
 
   for (const city of listCities()) {

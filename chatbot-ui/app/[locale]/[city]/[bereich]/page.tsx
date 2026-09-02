@@ -8,6 +8,8 @@ import { isLocale, type Locale } from "@/lib/i18n/config";
 import { bereichSlug, SLUG_TO_BEREICH } from "@/lib/seo";
 import { CourseList } from "../_components/course-list";
 
+export const revalidate = 3600;
+
 const PAGE_SIZE = 60;
 
 type Props = { params: Promise<{ locale: string; city: string; bereich: string }> };
@@ -21,7 +23,6 @@ function resolve(locale: string, slug: string, bereichParam: string) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  "use cache";
   const { locale, city: slug, bereich: bParam } = await params;
   const r = resolve(locale, slug, bParam);
   if (!r) {
@@ -48,7 +49,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BereichPage({ params }: Props) {
-  "use cache";
   const { locale, city: slug, bereich: bParam } = await params;
   const r = resolve(locale, slug, bParam);
   if (!r) {

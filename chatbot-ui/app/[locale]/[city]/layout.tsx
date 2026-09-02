@@ -14,7 +14,6 @@ export default async function CityLayout({
   children: ReactNode;
   params: Promise<{ locale: string; city: string }>;
 }) {
-  "use cache";
   const { locale, city: slug } = await params;
   if (!(isLocale(locale) && isKnownCity(slug))) {
     notFound();

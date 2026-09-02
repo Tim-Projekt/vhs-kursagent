@@ -690,3 +690,67 @@ keine Live‑Tools** — nur die Grundlage.
   Stadt‑Seiten — rendert korrekt (200), vor dem Deploy in eine Suspense‑Grenze fassen.
 - Bezirks‑Seiten/‑Filter, Themen‑Hubs, `next build`‑Prüfung, Cron, zweite Stadt, Live‑Tool,
   Redis, Branding‑Feinschliff, Impressum/Datenschutz‑Inhalt.
+
+---
+
+## 11 · Positionierung: R5 Marke + R1 i18n (Update 2026‑09‑02)
+
+**Positionierung (vom PM):** generalistischer Kursfinder fürs gesamte VHS‑Angebot in
+Deutschland; Go‑to‑Market‑Wedge (nicht exklusiv) = Menschen neu in Deutschland, die einen
+Deutsch‑/Integrationskurs suchen, Schwerpunkt Berlin. Marke bleibt generalistisch (kein
+„für Migrant:innen"‑Framing im Kern).
+
+### Datenprobe zum Wedge `[F]` (Berlin‑Korpus)
+- Deutsch/DaF: ~1.143 Kurse (DVV‑Code `4.04` = DaF/DaZ, 976); „Sprachen" gesamt 4.149.
+- **Integrationskurs/BAMF: 672 Treffer** — Titel „Deutsch Integrationskurs A1.2",
+  „Deutsch‑Orientierungskurs, Modul 7"; Keyword `BAMF Kursbeginn übermittelt`, `Migrant:innen`.
+- **CEFR‑Niveau in 91 % der Sprachkurse** aus Titel/Keywords lesbar (A1 1280 … C2 25);
+  kanonisches `level`‑Feld 0 % befüllt (Berlin liefert Open‑vhs `level` nicht).
+- Intensität ableitbar: intensiv 456, abend 179, wochenende 149, bildungsurlaub 126.
+- Barrierefreiheit strukturiert vorhanden (`venue.accessible` bekannt für 99,6 %).
+→ **Alle R3‑Wedge‑Facetten aus den Bestandsdaten mit Regex‑Enrichment gewinnbar, keine neue Quelle.**
+
+### R2 — Prompt Englisch, sprachadaptiv `[F]`
+`lib/ai/prompts.ts` + `berlin.primer` komplett auf Englisch. Regeln: immer in der Sprache der
+Nutzernachricht antworten (Fallback = `uiLocale`, neuer Param in `systemPrompt`); Katalog‑Queries
+**immer deutsch**; neutraler Ton, nichts erfinden; bei Deutsch‑/Integrationskursen proaktiv Niveau /
+BAMF‑Berechtigung / Ort / Format / Startzeitraum / Intensität klären; Aufenthalts‑/Förderfragen an
+BAMF/Ausländerbehörde verweisen; Generalismus explizit. Getestet: EN→EN, DE→DE, deutsche
+Tool‑Queries, BAMF‑Erklärung, neue Filter (`district`, `dvv_bereich`, `max_price`) genutzt.
+
+### R5 — Marke `kursspot` `[F]`
+`lib/site.ts` (`SITE_NAME = "kursspot"`, `SITE_URL` aus Env). „VHS‑Kursberater" / „FNR‑Assistent"
+ersetzt in `app/layout.tsx`, City‑Layout, `components/chat/*`, `lib/email.ts`, `package.json`.
+„VHS" bleibt nur als Sachbezeichnung (VHS‑Kurse), nicht in der Marke. Domain `kursspot.de` (PM:
+.com + EUIPO/DPMA noch prüfen).
+
+### R1 — i18n DE + EN, server‑gerendert `[F]`
+Hand‑gerollt (kein `next-intl`), `lib/i18n/`:
+- `config.ts` (LOCALES `de`/`en`, `pickLocale(Accept-Language)`, `LOCALE_COOKIE`),
+  `messages/{de,en}.ts` (UI‑Strings; Kursinhalte bleiben deutsch), `index.ts`
+  (`getMessages`, `t()`‑Interpolation, `bereichLabel`, `formatLabel`, `hreflang()`).
+- Routen verschoben: `app/[city]/*` → **`app/[locale]/[city]/*`**. Öffentliche URLs:
+  `/de/berlin`, `/en/berlin`, `/de/berlin/sprachen`, `/de/berlin/kurs/<slug>` …
+- `proxy.ts`: Legacy `/berlin…` → **308** auf `/<locale>/berlin…` (Locale aus `NEXT_LOCALE`‑Cookie,
+  sonst `Accept-Language`, sonst `de`). `/de`,`/en` → `/…/berlin`.
+- Pro Seite `generateMetadata` mit übersetztem Title/Description + **`canonical` + `hreflang`**
+  (`de`,`en`,`x-default`). `LocaleSwitcher` (Client) tauscht das erste Pfadsegment + setzt Cookie.
+  `<div lang={locale}>` in der City‑Layout (Root‑`<html lang>` bleibt statisch `de` —
+  vor Deploy sauberer lösen). `sitemap.ts` gibt beide Locales + `alternates.languages` aus.
+- DVV‑Bereichsnamen + Format‑Labels lokalisiert (`bereichNames` in `en.ts`); URL‑Slugs
+  (`sprachen`, `gesundheit`, …) bleiben sprachneutral.
+- Getestet: `/de/berlin` (deutsch), `/en/berlin` (englische Chrome, H1/H2/CTA/Breadcrumb,
+  interne Links `/en/berlin/…`), EN‑Kursseite (englische `<dt>`‑Labels, „Register with VHS …",
+  3 hreflang‑Links, JSON‑LD), Legacy‑Redirect mit/ohne Cookie + Accept‑Language, `/` (Chat)
+  unverändert, Chat‑Regression grün (EN→EN, deutsche Queries, neue Filter).
+
+### Bewusst offen (nächste Schritte, in Reihenfolge)
+- **R3 Facetten**: `vhs_pipeline/enrich.py` erweitern (`level` CEFR, `integrationskurs` bool,
+  `intensity` enum; `accessible` schon da) → Pipeline neu → DB neu laden → Filter in
+  `search-vhs-courses` + `courses.ts` + Pinecone‑Metadata (Re‑Upsert ~5 min).
+- **R4 Kategorie‑Landingpages** `/[locale]/[city]/[kategorie]` (`deutschkurs`,
+  `deutschkurs-a1/a2/b1`, `integrationskurs`, je DVV‑Bereich) — braucht R3 + steht auf der
+  i18n‑Struktur.
+- **R6 Analytics**: `sessionLocale` + Query‑Klassifikation → kleine Tabelle in Supabase.
+- Root‑`<html lang>` pro Locale; `next build`‑Check (cacheComponents/Suspense); Impressum/
+  Datenschutz‑Inhalt; Sprachliste über DE/EN hinaus.
