@@ -1,5 +1,6 @@
 import type { Geo } from "@vercel/functions";
 import type { ArtifactKind } from "@/components/chat/artifact";
+import type { City } from "@/lib/cities";
 
 export const artifactsPrompt = `
 Artifacts is a side panel that displays content alongside the conversation. It supports scripts (code), documents (text), and spreadsheets. Changes appear in real-time.
@@ -15,9 +16,9 @@ CRITICAL RULES:
 **\`editDocument\` / \`updateDocument\`:** only when the user explicitly asks to modify an existing artifact.
 `;
 
-export const vhsCoursesPrompt = `## Werkzeug: VHS-Kurssuche (\`searchVhsCourses\`)
+export const buildVhsCoursesPrompt = (city: City) => `## Werkzeug: VHS-Kurssuche (\`searchVhsCourses\`)
 <tool_guidance>
-Semantische Suche über den gesamten Kurskatalog der Berliner Volkshochschulen (~10.000 Kurse, aktuelles Semester, alle 12 Bezirks-VHS + Servicezentrum). Das ist deine **primäre und maßgebliche Quelle** für jede Kursaussage.
+Semantische Suche über den gesamten Kurskatalog von ${city.displayName} (~${Math.round(city.approxCourseCount / 1000)}.000 Kurse, aktuelles Semester). Das ist deine **primäre und maßgebliche Quelle** für jede Kursaussage.
 
 Nutze das Tool bei:
 - jeder inhaltlichen Kursfrage (Thema, Niveau, Format, Zielgruppe, "was gibt es zu …", Empfehlung, Vergleich)
@@ -50,20 +51,12 @@ Trenne in der Antwort Web-Funde sichtbar von Katalog-Aussagen.
 </tool_guidance>
 `;
 
-export const regularPrompt = `## Rolle
+export const buildRolePrompt = (city: City) => `## Rolle
 <role>
-Du bist der Kursberatungs-Assistent der Berliner Volkshochschulen. Du hilfst Bürgerinnen und Bürgern, aus dem großen Kursangebot (~10.000 Kurse pro Semester, 12 Bezirks-Volkshochschulen) den passenden Kurs zu finden: verstehen, vergleichen, einordnen, empfehlen. Du bist kein Anmeldesystem — zum Buchen verweist du auf den Kurslink der jeweiligen VHS.
+Du bist der Kursberatungs-Assistent von ${city.displayName}. Du hilfst Menschen, aus dem großen Kursangebot (~${Math.round(city.approxCourseCount / 1000)}.000 Kurse pro Semester) den passenden Kurs zu finden: verstehen, vergleichen, einordnen, empfehlen. Du bist kein Anmeldesystem — zum Buchen verweist du auf den Kurslink der jeweiligen ${city.providerLabel}.
 </role>
 
-## Kontext: die Berliner Volkshochschulen
-<context>
-- **Träger:** Jeder der 12 Berliner Bezirke betreibt eine eigene Volkshochschule (VHS Mitte, VHS Friedrichshain-Kreuzberg, VHS Pankow, VHS Charlottenburg-Wilmersdorf / "City West", VHS Spandau, VHS Steglitz-Zehlendorf, VHS Tempelhof-Schöneberg, VHS Neukölln, VHS Treptow-Köpenick, VHS Marzahn-Hellersdorf, VHS Lichtenberg, VHS Reinickendorf). Dazu ein "Servicezentrum" (u. a. zentrale Prüfungen). Anmeldung und Entgeltordnung laufen je Bezirks-VHS.
-- **Programmstruktur (DVV-Systematik):** sechs Programmbereiche — (1) Politik – Gesellschaft – Umwelt, (2) Kultur – Gestalten, (3) Gesundheit, (4) Sprachen, (5) Arbeit – Beruf, (6) Grundbildung – Schulabschlüsse; in Berlin zusätzlich Alphabetisierung/Grundbildung und übergreifende Angebote.
-- **Semester:** Frühjahr ("F") und Herbst ("H"); das Semester steckt im Suffix der Kursnummer (z. B. "Mi302-070H").
-- **Formate:** Präsenzkurs, Online-Kurs (oft über die vhs.cloud oder BigBlueButton/Zoom), Blended Learning, Selbstlernangebote. Sonderformen: Bildungsurlaub/Bildungszeit (nach dem Berliner Bildungszeitgesetz), Einstufungsberatung (meist kostenlos), Workshops, Vorträge, Studienfahrten.
-- **Entgelt:** reguläres Entgelt + häufig ein ermäßigtes Entgelt (z. B. mit berlinpass, für Menschen mit geringem Einkommen). Einzelne Angebote sind kostenlos.
-- **Niveaus (Sprachen):** GER-Stufen A1–C2; Sprachkurse ab A1.1 brauchen keine Beratung, darüber wird eine Einstufung empfohlen.
-</context>
+${city.primer}
 
 ## Nutzer
 <users>
@@ -117,17 +110,20 @@ Standort der Nutzerin (nur für ortsbezogene Fragen relevant): ${requestHints.ci
 export const systemPrompt = ({
   requestHints,
   supportsTools,
+  city,
 }: {
   requestHints: RequestHints;
   supportsTools: boolean;
+  city: City;
 }) => {
   const requestPrompt = getRequestPromptFromHints(requestHints);
+  const rolePrompt = buildRolePrompt(city);
 
   if (!supportsTools) {
-    return `${regularPrompt}\n\n${requestPrompt}`;
+    return `${rolePrompt}\n\n${requestPrompt}`;
   }
 
-  return `${regularPrompt}\n\n${requestPrompt}\n\n${vhsCoursesPrompt}\n\n${webSearchPrompt}\n\n${artifactsPrompt}`;
+  return `${rolePrompt}\n\n${requestPrompt}\n\n${buildVhsCoursesPrompt(city)}\n\n${webSearchPrompt}\n\n${artifactsPrompt}`;
 };
 
 export const codePrompt = `

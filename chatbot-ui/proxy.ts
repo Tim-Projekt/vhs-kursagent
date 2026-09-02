@@ -2,6 +2,27 @@ import { type NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { guestRegex, isDevelopmentEnvironment } from "./lib/constants";
 
+/** App-Bereiche, die Auth brauchen. Alles andere unter /<segment> ist die
+ *  öffentliche, indexierbare Stadt-Seite (die Seite selbst macht notFound()
+ *  für unbekannte Städte). */
+const RESERVED_FIRST_SEGMENTS = new Set([
+  "api",
+  "chat",
+  "login",
+  "register",
+  "forgot-password",
+  "reset-password",
+  "ping",
+]);
+
+function isPublicMarketingPath(pathname: string): boolean {
+  if (pathname === "/sitemap.xml" || pathname === "/robots.txt") {
+    return true;
+  }
+  const seg = pathname.split("/").filter(Boolean);
+  return seg.length >= 1 && !RESERVED_FIRST_SEGMENTS.has(seg[0]);
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -10,6 +31,10 @@ export async function proxy(request: NextRequest) {
   }
 
   if (pathname.startsWith("/api/auth")) {
+    return NextResponse.next();
+  }
+
+  if (isPublicMarketingPath(pathname)) {
     return NextResponse.next();
   }
 

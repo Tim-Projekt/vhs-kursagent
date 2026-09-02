@@ -1,8 +1,8 @@
 import { tool } from "ai";
 import { z } from "zod";
+import type { City } from "@/lib/cities";
 
 const PINECONE_HOST = process.env.PINECONE_INDEX_HOST!;
-const NAMESPACE = process.env.PINECONE_NAMESPACE ?? "vhs/berlin";
 const EMBEDDING_MODEL = "text-embedding-3-small";
 const EMBEDDING_DIMENSIONS = 512; // muss zur Index-Dimension passen (vhs-kurse: 512)
 
@@ -44,6 +44,7 @@ async function getEmbedding(text: string, apiKey: string): Promise<number[] | nu
 async function queryPinecone(
   host: string,
   apiKey: string,
+  namespace: string,
   vector: number[],
   topK: number,
   filter?: Record<string, unknown>
@@ -52,7 +53,7 @@ async function queryPinecone(
     method: "POST",
     headers: { "Api-Key": apiKey, "Content-Type": "application/json" },
     body: JSON.stringify({
-      namespace: NAMESPACE,
+      namespace,
       topK,
       vector,
       includeMetadata: true,
@@ -100,14 +101,15 @@ function formatMatches(matches: PineconeMatch[]): string {
     .join("\n\n---\n\n");
 }
 
-export const searchVhsCourses = tool({
-  description: `Semantische Suche über den Kurskatalog der Berliner Volkshochschulen (~10.000 Kurse, aktuelles Semester, alle 12 Bezirks-VHS + Servicezentrum). PRIMÄRE Wissensquelle des Agenten.
+export const searchVhsCourses = ({ city }: { city: City }) =>
+  tool({
+  description: `Semantische Suche über den Kurskatalog der Volkshochschulen in ${city.name} (~${Math.round(city.approxCourseCount / 1000)}.000 Kurse, aktuelles Semester). PRIMÄRE Wissensquelle des Agenten.
 
 Nutze dieses Tool für jede inhaltliche Kursfrage: Thema, Niveau, Format, Zielgruppe, Vergleich, "was gibt es zu …", Empfehlungen.
 
 Suchstrategie:
 - Deutsche, konkrete Queries ("Yoga für den Rücken am Wochenende", "Spanisch A2 online", "Bildungsurlaub Fotografie").
-- Bei klaren Einschränkungen den \`filter\` setzen (Bezirk, Format, Preis, Zeitraum, Wochentag, DVV-Bereich) statt sie nur in die Query zu schreiben.
+- Bei klaren Einschränkungen den \`filter\` setzen (${city.districtLabel}, Format, Preis, Zeitraum, Wochentag, DVV-Bereich) statt sie nur in die Query zu schreiben.
 - Für breite/vergleichende Fragen mehrfach mit unterschiedlichen Formulierungen suchen und die Treffer synthetisieren.
 - Jeden empfohlenen Kurs mit Titel, Kursnummer, VHS/Bezirk, Beginn+Rhythmus, Preis und \`booking_url\` ausgeben. Keine Kurse/Preise/Termine erfinden.
 - \`status\`/Plätze stammen aus dem letzten Katalog-Snapshot (bis ~1 Woche alt) — für Verbindlichkeit auf den Buchungslink verweisen.`,
@@ -124,7 +126,7 @@ Suchstrategie:
           .string()
           .optional()
           .describe(
-            "Berliner Bezirk exakt, z.B. 'Mitte', 'Neukölln', 'Friedrichshain-Kreuzberg', 'Pankow', 'Charlottenburg-Wilmersdorf', 'Steglitz-Zehlendorf', 'Tempelhof-Schöneberg', 'Treptow-Köpenick', 'Marzahn-Hellersdorf', 'Lichtenberg', 'Reinickendorf', 'Spandau'."
+            `${city.districtLabel} exakt (einer von: ${city.districts.join(", ")}).`
           ),
         format: z.enum(FORMATS).optional().describe("Kursformat."),
         online: z.boolean().optional().describe("true = nur Online-/Selbstlernangebote."),
@@ -181,6 +183,7 @@ Suchstrategie:
       matches = await queryPinecone(
         PINECONE_HOST,
         pineconeApiKey,
+        city.namespace,
         vector,
         topK ?? 8,
         pineconeFilter
@@ -194,7 +197,7 @@ Suchstrategie:
     if (matches.length === 0) {
       return {
         query,
-        namespace: NAMESPACE,
+        namespace: city.namespace,
         message:
           "Keine Kurse gefunden. Formuliere die Suche anders oder lockere die Filter (z.B. Bezirk oder Zeitraum weglassen).",
       };
@@ -202,7 +205,7 @@ Suchstrategie:
 
     return {
       query,
-      namespace: NAMESPACE,
+      namespace: city.namespace,
       filterApplied: pineconeFilter ?? null,
       totalHits: matches.length,
       results: formatMatches(matches),

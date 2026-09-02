@@ -627,3 +627,66 @@ pnpm dev                # → http://localhost:3000  (Next 16, Turbopack, "Ready
 - `sharp` postinstall lief nicht durch (nur Next‑Bildoptimierung betroffen; Chat unberührt).
 - Optional: `REDIS_URL` für resumable streams, Branding (`greeting.tsx`, `suggested-actions.tsx`,
   OpenGraph), Kurs‑Karten‑Komponente statt reinem Markdown, `search-vhs-live` (ASP.NET‑Sekundärtool).
+
+---
+
+## 10 · Phase 1 — Berlin als Produkt / modulare Grundlage (Update 2026‑09‑02)
+
+Kleinschrittig umgesetzt (A → B → C), jeweils getestet. **Kein Cron, keine zweite Stadt,
+keine Live‑Tools** — nur die Grundlage.
+
+### A · City‑Config + dynamischer Namespace `[F]`
+- `chatbot-ui/lib/cities/` — `City`‑Typ, `berlin.ts` (Slug, Namespace, `providerLabel`,
+  `districtLabel`, `districts[]`, `primer` = stadt‑spezifischer Prompt‑Block, `seo`, `data`
+  (Attribution/Lizenz)), `index.ts` mit `getCity(slug)` / `isKnownCity` / `listCities`.
+- **Namespace kommt aus dem Request**, nicht mehr aus `PINECONE_NAMESPACE`: POST‑Body von
+  `/api/chat` hat optionales `city` (Schema erweitert) → `getCity(citySlug)` → an
+  `systemPrompt({…, city})` und `searchVhsCourses({ city })` (Tool ist jetzt eine Factory,
+  nutzt `city.namespace`, `city.districts`, `city.districtLabel`).
+- `lib/ai/prompts.ts`: `regularPrompt` → `buildRolePrompt(city)`, `vhsCoursesPrompt` →
+  `buildVhsCoursesPrompt(city)`; Berlin‑Hardcodings (12 VHS, berlinpass, Bildungszeitgesetz)
+  → `city.primer`.
+- Test: Chat mit `city:"berlin"` → Tool‑Call gegen `vhs/berlin`; unbekannte Stadt
+  (`"münchen"`) → Fallback `vhs/berlin`.
+
+### B · Kurs‑DB‑Layer `[F]`
+- `lib/db/schema.ts`: Tabelle **`VhsCourse`** (uid PK, `city`, `guid`, Kernfelder für
+  Anzeige/Filter + `data` jsonb mit vollem kanonischen Datensatz, 6 Indizes auf
+  `city`/`dvvBereich`/`region`/`courseFormat`/`guid`/`startDate`). Migration
+  `0002_clumsy_puppet_master.sql`, `pnpm db:migrate` gelaufen.
+- `scripts/load-courses.ts` (`pnpm db:load-courses [city]`): liest
+  `vhs_pipeline/data/processed/<city>.jsonl`, Voll‑Reload pro Stadt in einer Transaktion
+  (löschen + einfügen, 500er‑Batches), Dublettenprüfung auf `uid`. **10.230 Zeilen für
+  berlin geladen.**
+- `lib/db/courses.ts`: `listCourses(filter,opts)`, `countCourses`, `getCourse(city,guid)`,
+  `listBereiche` / `listRegions` (Facetten mit Count), `cityStats`, `listCourseSlugsData`
+  (Sitemap). Facetten stimmen mit dem Validierungsbericht überein (Sprachen 4149 …).
+
+### C · SEO‑Seiten (minimal, wichtigste Hebel) `[F]`
+- Routen unter `app/[city]/` (öffentlich, SSR, `revalidate` via `"use cache"`):
+  - `/{city}` — Landing: H1, Intro mit Kurszahl, Programmbereiche (interne Links),
+    Formate, Bezirke. `generateMetadata` (Title/Description/canonical/OG).
+  - `/{city}/{bereich}` — Kategorie: Title „{Bereich}: {n} VHS‑Kurse in {City}", H1,
+    Kursliste (60 nächststartende), Querlinks zu anderen Bereichen + zu Kursseiten.
+  - `/{city}/kurs/{slug}` — Kursdetail (`slug` = `kebab(titel)-guid`): Title, Meta aus
+    Beschreibung, H1, Termine/Preis/Ort/Status, volle Beschreibung, alle Termine,
+    **`Course` + `CourseInstance` + `Offer` JSON‑LD**, „Zur Anmeldung"‑Link
+    (`rel="nofollow"`) auf `booking_url`.
+  - `app/[city]/layout.tsx` — Kopf (Link zur KI‑Beratung) + Fuß mit **CC‑BY‑Attribution**
+    (`city.data`), Impressum/Datenschutz‑Platzhalter.
+- `app/sitemap.ts` — City + Bereiche + alle Kurse (**10.239 URLs** für Berlin);
+  `app/robots.ts` — Allow `/`, Disallow `/api /chat /login /register`, Sitemap‑Verweis.
+- `proxy.ts` — reservierte Segmente (`api/chat/login/register/…`) bleiben Auth‑gated;
+  alles andere unter `/<segment>` ist öffentlich (unbekannte Stadt → Seite macht `notFound()`).
+- `app/layout.tsx` — Metadata/`metadataBase`/`lang="de"` auf VHS umgestellt.
+- Tests: `/berlin` 200 (Title/H1/H2/8 interne Links), `/berlin/sprachen` 200 (60
+  Kurslinks), Kursdetail 200 (JSON‑LD `Course`), `/sitemap.xml` 200 (10.239 `<loc>`),
+  `/robots.txt` 200, `/hamburg` + `/berlin/quatsch` + unbekannter Kurs → 404, `/` unverändert
+  (Chat). Chat‑Regression grün.
+
+### Bewusst offen (spätere Phasen)
+- Root `/` bleibt der Chat (kein Picker); Chat sendet noch kein `city` (Default berlin).
+- Next‑16‑`cacheComponents`: Dev‑Warnung „data accessed outside `<Suspense>`" auf den
+  Stadt‑Seiten — rendert korrekt (200), vor dem Deploy in eine Suspense‑Grenze fassen.
+- Bezirks‑Seiten/‑Filter, Themen‑Hubs, `next build`‑Prüfung, Cron, zweite Stadt, Live‑Tool,
+  Redis, Branding‑Feinschliff, Impressum/Datenschutz‑Inhalt.

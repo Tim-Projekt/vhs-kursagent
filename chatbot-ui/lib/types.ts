@@ -18,7 +18,7 @@ export type MessageMetadata = z.infer<typeof messageMetadataSchema>;
 type createDocumentTool = InferUITool<ReturnType<typeof createDocument>>;
 type updateDocumentTool = InferUITool<ReturnType<typeof updateDocument>>;
 type requestSuggestionsTool = InferUITool<ReturnType<typeof requestSuggestions>>;
-type searchVhsCoursesTool = InferUITool<typeof searchVhsCourses>;
+type searchVhsCoursesTool = InferUITool<ReturnType<typeof searchVhsCourses>>;
 type searchWebTool = InferUITool<typeof searchWeb>;
 type editDocumentTool = InferUITool<ReturnType<typeof editDocument>>;
 

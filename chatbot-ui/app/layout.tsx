@@ -7,10 +7,15 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://moor-intelligence.vercel.app"),
-  title: "FNR-Assistent",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"
+  ),
+  title: {
+    default: "VHS-Kursberater – Volkshochschulkurse finden",
+    template: "%s · VHS-Kursberater",
+  },
   description:
-    "Interner KI-Assistent der Fachagentur Nachwachsende Rohstoffe.",
+    "Finde den passenden Volkshochschulkurs: semantische Suche und KI-Beratung über den aktuellen Kurskatalog. Direkt zur Anmeldung bei deiner VHS.",
 };
 
 export const viewport = {
@@ -57,7 +62,7 @@ export default function RootLayout({
   return (
     <html
       className={`${geist.variable} ${geistMono.variable}`}
-      lang="en"
+      lang="de"
       suppressHydrationWarning
     >
       <head>

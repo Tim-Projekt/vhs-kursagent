@@ -24,6 +24,7 @@ import { createDocument } from "@/lib/ai/tools/create-document";
 import { editDocument } from "@/lib/ai/tools/edit-document";
 import { requestSuggestions } from "@/lib/ai/tools/request-suggestions";
 import { searchVhsCourses } from "@/lib/ai/tools/search-vhs-courses";
+import { getCity } from "@/lib/cities";
 import { updateDocument } from "@/lib/ai/tools/update-document";
 import { searchWeb } from "@/lib/ai/tools/web-search";
 import { isProductionEnvironment } from "@/lib/constants";
@@ -77,8 +78,16 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { id, message, messages, selectedChatModel, selectedVisibilityType } =
-      requestBody;
+    const {
+      id,
+      message,
+      messages,
+      selectedChatModel,
+      selectedVisibilityType,
+      city: citySlug,
+    } = requestBody;
+
+    const city = getCity(citySlug);
 
     const [, session] = await Promise.all([
       checkBotId().catch(() => null),
@@ -177,12 +186,12 @@ export async function POST(request: Request) {
       ];
     }
 
-    const { longitude, latitude, city, country } = geolocation(request);
+    const { longitude, latitude, city: geoCity, country } = geolocation(request);
 
     const requestHints: RequestHints = {
       longitude,
       latitude,
-      city,
+      city: geoCity,
       country,
     };
 
@@ -214,7 +223,7 @@ export async function POST(request: Request) {
       execute: async ({ writer: dataStream }) => {
         const result = streamText({
           model: getLanguageModel(chatModel),
-          system: systemPrompt({ requestHints, supportsTools }),
+          system: systemPrompt({ requestHints, supportsTools, city }),
           messages: modelMessages,
           stopWhen: stepCountIs(MAX_AGENT_STEPS),
           experimental_activeTools:
@@ -290,7 +299,7 @@ export async function POST(request: Request) {
             void step;
           },
           tools: {
-            searchVhsCourses,
+            searchVhsCourses: searchVhsCourses({ city }),
             searchWeb,
             createDocument: createDocument({
               session,
@@ -348,7 +357,7 @@ export async function POST(request: Request) {
           try {
             const fallbackResult = streamText({
               model: getLanguageModel(chatModel),
-              system: systemPrompt({ requestHints, supportsTools }),
+              system: systemPrompt({ requestHints, supportsTools, city }),
               messages: [
                 ...modelMessages,
                 {

@@ -2,9 +2,13 @@ import type { InferSelectModel } from "drizzle-orm";
 import {
   boolean,
   foreignKey,
+  index,
+  integer,
   json,
+  jsonb,
   pgTable,
   primaryKey,
+  real,
   text,
   timestamp,
   uuid,
@@ -155,3 +159,80 @@ export const stream = pgTable(
 );
 
 export type Stream = InferSelectModel<typeof stream>;
+
+/**
+ * Kurs-DB-Layer — die normalisierten Kursdaten aus vhs_pipeline/data/processed/<city>.jsonl,
+ * geladen via scripts/load-courses.ts. Quelle für die öffentlichen SEO-Seiten und
+ * strukturierte Filter; Pinecone bleibt für die semantische Suche.
+ * `city` = City-Slug (lib/cities). `data` hält den vollständigen kanonischen Datensatz.
+ */
+export const vhsCourse = pgTable(
+  "VhsCourse",
+  {
+    uid: text("uid").primaryKey().notNull(),
+    city: text("city").notNull(),
+    sourceId: text("sourceId").notNull(),
+    guid: text("guid").notNull(),
+    namespace: text("namespace").notNull(),
+
+    courseNumber: text("courseNumber"),
+    title: text("title").notNull(),
+    subtitle: text("subtitle"),
+    description: text("description"),
+
+    dvvCode: text("dvvCode"),
+    dvvBereich: text("dvvBereich"),
+    dvvLabel: text("dvvLabel"),
+    eventType: text("eventType"),
+    level: text("level"),
+    courseFormat: text("courseFormat").notNull().default("praesenz"),
+    online: boolean("online").notNull().default(false),
+
+    keywords: jsonb("keywords").$type<string[]>().notNull().default([]),
+
+    startDate: text("startDate"),
+    endDate: text("endDate"),
+    sessionCount: integer("sessionCount"),
+    weekdays: jsonb("weekdays").$type<string[]>().notNull().default([]),
+    timeStart: text("timeStart"),
+    timeEnd: text("timeEnd"),
+
+    region: text("region"),
+    postalCode: text("postalCode"),
+    venueName: text("venueName"),
+    lat: real("lat"),
+    lon: real("lon"),
+
+    priceAmount: real("priceAmount"),
+    priceReduced: real("priceReduced"),
+    priceFree: boolean("priceFree").notNull().default(false),
+    status: text("status").notNull().default("unknown"),
+
+    bookingUrl: text("bookingUrl"),
+    semester: text("semester"),
+    contentHash: text("contentHash").notNull(),
+    data: jsonb("data").notNull(),
+
+    sourceUpdatedAt: text("sourceUpdatedAt"),
+    updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+  },
+  (table) => ({
+    cityIdx: index("VhsCourse_city_idx").on(table.city),
+    cityBereichIdx: index("VhsCourse_city_bereich_idx").on(
+      table.city,
+      table.dvvBereich
+    ),
+    cityRegionIdx: index("VhsCourse_city_region_idx").on(
+      table.city,
+      table.region
+    ),
+    cityFormatIdx: index("VhsCourse_city_format_idx").on(
+      table.city,
+      table.courseFormat
+    ),
+    cityGuidIdx: index("VhsCourse_city_guid_idx").on(table.city, table.guid),
+    startDateIdx: index("VhsCourse_startDate_idx").on(table.startDate),
+  })
+);
+
+export type VhsCourse = InferSelectModel<typeof vhsCourse>;
