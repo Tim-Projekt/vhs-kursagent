@@ -27,7 +27,7 @@ export function AuthForm({
           defaultValue={defaultEmail}
           id="email"
           name="email"
-          placeholder="name@fnr.de"
+          placeholder="name@example.de"
           required
           type="email"
         />

@@ -2,7 +2,7 @@ import "server-only";
 
 const BREVO_API_URL = "https://api.brevo.com/v3/smtp/email";
 
-const FROM_EMAIL = process.env.BREVO_FROM_EMAIL ?? "no-reply@fnr.de";
+const FROM_EMAIL = process.env.BREVO_FROM_EMAIL ?? "no-reply@kursspot.de";
 const FROM_NAME = process.env.BREVO_FROM_NAME ?? "kursspot";
 
 function getAppBaseUrl() {

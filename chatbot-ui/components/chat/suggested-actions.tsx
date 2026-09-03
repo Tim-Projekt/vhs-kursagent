@@ -30,10 +30,10 @@ function PureSuggestedActions({ chatId, sendMessage }: SuggestedActionsProps) {
       {suggestedActions.map((suggestedAction, index) => (
         <motion.div
           animate={{ opacity: 1, y: 0 }}
-          className="min-w-[200px] shrink-0 sm:min-w-0 sm:shrink"
+          className="min-w-[220px] shrink-0 sm:min-w-0 sm:shrink"
           exit={{ opacity: 0, y: 16 }}
           initial={{ opacity: 0, y: 16 }}
-          key={suggestedAction}
+          key={suggestedAction.text}
           transition={{
             delay: 0.06 * index,
             duration: 0.4,
@@ -41,7 +41,7 @@ function PureSuggestedActions({ chatId, sendMessage }: SuggestedActionsProps) {
           }}
         >
           <Suggestion
-            className="h-auto w-full whitespace-nowrap rounded-xl border border-border/50 bg-card/30 px-4 py-3 text-left text-[12px] leading-relaxed text-muted-foreground transition-all duration-200 sm:whitespace-normal sm:p-4 sm:text-[13px] hover:-translate-y-0.5 hover:bg-card/60 hover:text-foreground hover:shadow-[var(--shadow-card)]"
+            className="group h-auto w-full items-start gap-3 whitespace-normal rounded-lg border border-border bg-card px-4 py-3.5 text-left shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-[var(--shadow-float)]"
             onClick={(suggestion) => {
               window.history.pushState(
                 {},
@@ -53,9 +53,24 @@ function PureSuggestedActions({ chatId, sendMessage }: SuggestedActionsProps) {
                 parts: [{ type: "text", text: suggestion }],
               });
             }}
-            suggestion={suggestedAction}
+            suggestion={suggestedAction.text}
           >
-            {suggestedAction}
+            <span
+              aria-hidden
+              className="mt-1.5 size-2.5 shrink-0 rounded-full transition-transform duration-200 group-hover:scale-125"
+              style={{ background: suggestedAction.color }}
+            />
+            <span className="flex min-w-0 flex-col gap-1">
+              <span
+                className="font-semibold text-[11px] uppercase tracking-wider"
+                style={{ color: suggestedAction.color }}
+              >
+                {suggestedAction.bereich}
+              </span>
+              <span className="text-[14px] text-foreground leading-snug">
+                {suggestedAction.text}
+              </span>
+            </span>
           </Suggestion>
         </motion.div>
       ))}

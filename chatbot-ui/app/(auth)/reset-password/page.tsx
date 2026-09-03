@@ -79,11 +79,11 @@ function ResetPasswordForm() {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">
+      <h1 className="font-semibold text-2xl text-navy tracking-tight">
         Neues Passwort vergeben
       </h1>
-      <p className="text-sm text-muted-foreground">
-        Wähle ein neues Passwort für dein FNR-Konto.
+      <p className="text-muted-foreground text-sm">
+        Mindestens 6 Zeichen, dann bist du wieder drin.
       </p>
       <Form action={formAction} className="flex flex-col gap-4">
         <input name="token" type="hidden" value={token} />

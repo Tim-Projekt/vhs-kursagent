@@ -64,12 +64,12 @@ export function VisibilitySelector({
       <DropdownMenuTrigger
         asChild
         className={cn(
-          "w-fit data-[state=open]:bg-primary-foreground/15 data-[state=open]:text-primary-foreground",
+          "w-fit data-[state=open]:bg-muted data-[state=open]:text-foreground",
           className
         )}
       >
         <Button
-          className="gap-1.5 rounded-lg border-primary-foreground/25 bg-primary-foreground/10 text-primary-foreground shadow-none transition-colors hover:bg-primary-foreground/15 hover:text-primary-foreground focus-visible:border-primary-foreground/40 focus-visible:ring-0 active:translate-y-0"
+          className="gap-1.5 rounded-lg border-border bg-transparent text-muted-foreground shadow-none transition-colors hover:bg-muted hover:text-foreground focus-visible:border-primary/40 focus-visible:ring-0 active:translate-y-0"
           data-testid="visibility-selector"
           size="sm"
           variant="outline"

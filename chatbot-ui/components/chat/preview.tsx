@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { suggestions } from "@/lib/constants";
-import { FnrMark } from "./icons";
+import { KursspotMark } from "./icons";
 
 export function Preview() {
   const router = useRouter();
@@ -14,32 +14,41 @@ export function Preview() {
 
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-tl-md border-t border-l border-border/40 bg-background">
-      <div className="flex h-14 shrink-0 items-center gap-2 bg-primary px-5 text-primary-foreground">
-        <FnrMark size={16} />
-        <span className="font-medium text-[13px] tracking-wide">
+      <div className="flex h-14 shrink-0 items-center gap-2 border-border border-b bg-background px-5 text-foreground">
+        <span className="text-primary">
+          <KursspotMark size={16} />
+        </span>
+        <span className="font-semibold text-[13px] tracking-wide">
           kursspot
         </span>
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center gap-8 px-8">
         <div className="text-center">
-          <h2 className="text-xl font-semibold tracking-tight">
-            Was möchten Sie wissen?
+          <h2 className="font-semibold text-2xl text-navy tracking-tight">
+            Was willst du lernen?
           </h2>
-          <p className="mt-1.5 text-sm text-muted-foreground">
-            Fragen zum gesamten FNR-Förderportfolio.
+          <p className="mt-2 text-muted-foreground text-sm">
+            Sag, worauf du Lust hast.
           </p>
         </div>
 
-        <div className="grid w-full max-w-md grid-cols-2 gap-2">
+        <div className="grid w-full max-w-md grid-cols-2 gap-2.5">
           {suggestions.map((suggestion) => (
             <button
-              className="rounded-md border border-border/30 bg-card/20 px-3 py-2.5 text-left text-[11px] leading-relaxed text-muted-foreground/70 transition-all duration-200 hover:border-border/60 hover:bg-card/40 hover:text-muted-foreground"
-              key={suggestion}
-              onClick={() => handleAction(suggestion)}
+              className="flex items-start gap-2.5 rounded-lg border border-border bg-card px-3 py-3 text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)]"
+              key={suggestion.text}
+              onClick={() => handleAction(suggestion.text)}
               type="button"
             >
-              {suggestion}
+              <span
+                aria-hidden
+                className="mt-1 size-2 shrink-0 rounded-full"
+                style={{ background: suggestion.color }}
+              />
+              <span className="text-[12px] text-foreground leading-snug">
+                {suggestion.text}
+              </span>
             </button>
           ))}
         </div>
@@ -47,11 +56,11 @@ export function Preview() {
 
       <div className="shrink-0 px-5 pb-5">
         <button
-          className="flex w-full items-center rounded-md border border-border/30 bg-card/30 px-4 py-3 text-left text-[13px] text-muted-foreground/40 transition-colors hover:border-border/50 hover:text-muted-foreground/60"
+          className="flex w-full items-center rounded-lg border border-border bg-card px-4 py-3 text-left text-[13px] text-muted-foreground/70 transition-colors hover:border-primary/40 hover:text-muted-foreground"
           onClick={() => handleAction()}
           type="button"
         >
-          Frage stellen...
+          Frag mich etwas …
         </button>
       </div>
     </div>

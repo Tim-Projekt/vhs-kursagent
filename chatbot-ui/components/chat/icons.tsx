@@ -1,5 +1,3 @@
-import { useId } from "react";
-
 export const BotIcon = () => {
   return (
     <svg
@@ -58,83 +56,52 @@ export const AttachmentIcon = () => {
   );
 };
 
-/** FNR's actual sprout/leaf mark (sourced from fnr.de's own favicon), used
- * wherever a fixed-color, square logo glyph is needed. Not currentColor —
- * this is the real brand gradient, so it renders identically regardless of
- * surrounding text color. */
-export const FnrMark = ({ size = 17 }: { size?: number }) => {
-  const gradientId = useId();
+/** Original kursspot mark: a magnifying glass over two lines of "course
+ * text" — search inside a catalogue. Not sourced from any third-party
+ * brand asset; deliberately distinct from both the FNR and vhs logos.
+ * currentColor, so it reads correctly on any surface (white sidebar,
+ * colored header, dark mode). */
+export const KursspotMark = ({ size = 17 }: { size?: number }) => {
   return (
-    <svg height={size} viewBox="0 0 310 310" width={size}>
-      <defs>
-        <linearGradient
-          gradientTransform="translate(0 254)"
-          gradientUnits="userSpaceOnUse"
-          id={gradientId}
-          x1="155"
-          x2="155"
-          y1="-252.39"
-          y2="52.49"
-        >
-          <stop offset=".4" stopColor="#ffcb00" />
-          <stop offset=".48" stopColor="#c7ba0e" />
-          <stop offset=".62" stopColor="#73a222" />
-          <stop offset=".73" stopColor="#359031" />
-          <stop offset=".82" stopColor="#0f843a" />
-          <stop offset=".86" stopColor="#00803e" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M108.14,146.14c-4.41,6.72-9.88,20.17-9.88,32.15,0,31.31,25.42,56.73,56.73,56.73s56.73-25.42,56.73-56.73c0-18.49-8.82-34.88-22.48-45.18h84.89c5.25,14.08,9.46,29.21,9.46,45.18,0,71.02-57.57,128.59-128.59,128.59S26.41,249.31,26.41,178.29c0-20.8,6.93-40.76,15.76-58.2,0,0,31.73-54.21,49.17-70.81,6.93-6.51,3.78-9.25,5.04-10.3,2.73-2.52,4.2-1.68,6.09-3.99,1.89-2.31,6.51-8.61,8.61-8.61,2.31,0,2.31,1.89,3.36,1.68,1.05-.21,4.83-5.88,6.72-6.93,1.89-1.05,4.2-4.41,5.67-4.83,1.47-.21,2.52-.63,2.73.21.21.84.21,3.99,1.47,3.99,1.05,0,5.67-3.99,7.35-5.04,1.68-1.05,3.57-1.89,4.83-1.89,1.05,0,2.52.84,2.52.84,0,0,5.25-3.99,8.19-4.41,2.73-.63,5.88-.84,5.88-.84,0,0,1.05-1.89,1.89-1.68.84.21,1.68,0,3.15-1.68,1.47-1.68,3.15-.84,3.57-1.68.63-.84,2.52-2.73,3.36-1.89s0,3.15-.84,4.2c-.84,1.05-3.15,3.36-3.99,3.57-.84.21-.63,1.47-1.68,2.31-1.05.84-3.36,3.99-3.36,4.83s.21,4.83.21,4.83c0,0-1.89,8.4-.84,8.61,1.05.21,4.83-1.68,5.25-3.15.63-1.47,1.68-2.73,3.15-2.31,1.47.63,3.57,1.05,4.83.63,1.05-.63,3.15-2.73,5.25-3.36,2.31-.63,2.73-.21,4.41-.84s1.47.21,3.36.63c1.89.21,3.36.63,3.99,1.47.63.84-1.89,3.15-2.73,3.99-.84.84-6.72,12.82-7.35,14.5-.63,1.68-3.36,8.19-5.67,12.61-9.46,19.54-18.49,30.68-25.63,38.87-5.25,5.25-31.73,36.14-42.02,52.53Z"
-        fill={`url(#${gradientId})`}
-      />
+    <svg
+      fill="none"
+      height={size}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ color: "currentcolor" }}
+      viewBox="0 0 20 20"
+      width={size}
+    >
+      <circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" strokeWidth="1.8" />
+      <line stroke="currentColor" strokeWidth="1.5" x1="5.3" x2="11.2" y1="6.6" y2="6.6" />
+      <line stroke="currentColor" strokeWidth="1.5" x1="5.3" x2="9.4" y1="9.3" y2="9.3" />
+      <line stroke="currentColor" strokeWidth="2" x1="13.3" x2="18" y1="13.3" y2="18" />
     </svg>
   );
 };
 
-/** Full FNR lockup (sprout mark + "FNR" wordmark, sourced from fnr.de's own
- * logo asset). The wordmark letterforms are a fixed dark green (#007D40),
- * so this is only legible on light/white surfaces — use FnrMark alone on
- * colored (e.g. primary-green) surfaces instead. */
-export const FnrWordmark = ({ height = 20 }: { height?: number }) => {
-  const gradientId = useId();
-  const width = Math.round(height * (359.8 / 147));
+/** Full kursspot lockup (search mark + "kursspot" wordmark). currentColor
+ * throughout, so it adapts to light/dark surfaces automatically. */
+export const KursspotWordmark = ({ height = 20 }: { height?: number }) => {
+  const width = Math.round(height * (108 / 22));
   return (
-    <svg height={height} viewBox="-295.8 208 359.8 147" width={width}>
-      <defs>
-        <linearGradient
-          gradientTransform="matrix(1 0 0 -1 0 564)"
-          gradientUnits="userSpaceOnUse"
-          id={gradientId}
-          x1="-232.8"
-          x2="-232.8"
-          y1="355.1847"
-          y2="210.0845"
-        >
-          <stop offset="0.3988" stopColor="#FFCB00" />
-          <stop offset="0.4846" stopColor="#C7BA0E" />
-          <stop offset="0.6217" stopColor="#73A222" />
-          <stop offset="0.7341" stopColor="#359031" />
-          <stop offset="0.816" stopColor="#0F843A" />
-          <stop offset="0.8589" stopColor="#00803E" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M-255.1,277.6c-2.1,3.2-4.7,9.6-4.7,15.3c0,14.9,12.1,27,27,27s27-12.1,27-27c0-8.8-4.2-16.6-10.7-21.5h40.4   c2.5,6.7,4.5,13.9,4.5,21.5c0,33.8-27.4,61.2-61.2,61.2s-61.2-27.4-61.2-61.2c0-9.9,3.3-19.4,7.5-27.7c0,0,15.1-25.8,23.4-33.7   c3.3-3.1,1.8-4.4,2.4-4.9c1.3-1.2,2-0.8,2.9-1.9c0.9-1.1,3.1-4.1,4.1-4.1c1.1,0,1.1,0.9,1.6,0.8c0.5-0.1,2.3-2.8,3.2-3.3   c0.9-0.5,2-2.1,2.7-2.3c0.7-0.1,1.2-0.3,1.3,0.1c0.1,0.4,0.1,1.9,0.7,1.9c0.5,0,2.7-1.9,3.5-2.4s1.7-0.9,2.3-0.9   c0.5,0,1.2,0.4,1.2,0.4s2.5-1.9,3.9-2.1c1.3-0.3,2.8-0.4,2.8-0.4s0.5-0.9,0.9-0.8c0.4,0.1,0.8,0,1.5-0.8s1.5-0.4,1.7-0.8   c0.3-0.4,1.2-1.3,1.6-0.9c0.4,0.4,0,1.5-0.4,2c-0.4,0.5-1.5,1.6-1.9,1.7c-0.4,0.1-0.3,0.7-0.8,1.1c-0.5,0.4-1.6,1.9-1.6,2.3   c0,0.4,0.1,2.3,0.1,2.3s-0.9,4-0.4,4.1c0.5,0.1,2.3-0.8,2.5-1.5c0.3-0.7,0.8-1.3,1.5-1.1c0.7,0.3,1.7,0.5,2.3,0.3   c0.5-0.3,1.5-1.3,2.5-1.6c1.1-0.3,1.3-0.1,2.1-0.4s0.7,0.1,1.6,0.3c0.9,0.1,1.6,0.3,1.9,0.7c0.3,0.4-0.9,1.5-1.3,1.9   c-0.4,0.4-3.2,6.1-3.5,6.9c-0.3,0.8-1.6,3.9-2.7,6c-4.5,9.3-8.8,14.6-12.2,18.5C-237.6,255.1-250.2,269.8-255.1,277.6z"
-        fill={`url(#${gradientId})`}
-      />
-      <path
-        d="M-135.2,288.8v13.1h22.4v17.3h-22.4V350h-20.4v-78.5h45v17.3H-135.2z"
-        fill="#007D40"
-      />
-      <path
-        d="M-98.5,271.5h20.4l37.6,48.1v-48.1h20.4V350h-20.4l-37.6-48v48h-20.4V271.5z"
-        fill="#007D40"
-      />
-      <path
-        d="M61.6,350H36.1l-19.4-30.2V350H-3.7v-78.5H28c9,0,14.7,2.1,19.3,7c4.2,4.5,6.7,10.8,6.7,17.3   c0,11.8-6,19.6-17.2,22.2L61.6,350z M20.5,306.7c8,0,12.6-3.7,12.6-9.8s-4.7-9.8-12.6-9.8h-3.8v19.6   C16.7,306.7,20.5,306.7,20.5,306.7z"
-        fill="#007D40"
-      />
+    <svg height={height} viewBox="0 0 108 22" width={width}>
+      <g transform="translate(1, 1)" fill="none" stroke="currentColor">
+        <circle cx="9" cy="9" r="7.4" strokeWidth="2" />
+        <line strokeLinecap="round" strokeWidth="1.7" x1="5.3" x2="12.6" y1="7" y2="7" />
+        <line strokeLinecap="round" strokeWidth="1.7" x1="5.3" x2="10.4" y1="10.2" y2="10.2" />
+        <line strokeLinecap="round" strokeWidth="2.2" x1="14.5" x2="20" y1="14.5" y2="20" />
+      </g>
+      <text
+        fill="currentColor"
+        fontFamily="var(--font-geist), ui-sans-serif, system-ui, sans-serif"
+        fontSize="15"
+        fontWeight="600"
+        x="30"
+        y="16"
+      >
+        kursspot
+      </text>
     </svg>
   );
 };

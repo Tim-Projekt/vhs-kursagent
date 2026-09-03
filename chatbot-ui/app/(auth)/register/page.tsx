@@ -47,11 +47,11 @@ export default function Page() {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">
+      <h1 className="font-semibold text-2xl text-navy tracking-tight">
         Konto erstellen
       </h1>
-      <p className="text-sm text-muted-foreground">
-        Zugang für Mitarbeitende der FNR
+      <p className="text-muted-foreground text-sm">
+        Kostenlos. Damit du deine Suchen später wiederfindest.
       </p>
       <AuthForm action={handleSubmit} defaultEmail={email}>
         <SubmitButton isSuccessful={isSuccessful}>Registrieren</SubmitButton>

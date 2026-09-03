@@ -107,7 +107,7 @@ export async function POST(request: Request) {
     // IP-Limit ist ein Anti-Abuse-Schutz für anonyme Gäste (beliebig oft neu
     // erzeugbar); angemeldete Nutzer:innen werden ausschließlich über ihr
     // Konto limitiert (entitlementsByTier), damit geteilte Büro-IPs mehrere
-    // FNR-Mitarbeitende nicht gegenseitig ausbremsen.
+    // angemeldete Nutzer:innen nicht gegenseitig ausbremsen.
     if (userTier === "guest") {
       await checkIpRateLimit(ipAddress(request));
     }

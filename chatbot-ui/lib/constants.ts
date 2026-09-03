@@ -12,9 +12,28 @@ export const guestRegex = /^guest-\d+$/;
 
 export const DUMMY_PASSWORD = generateDummyPassword();
 
+/** Startvorschläge, sortiert nach vhs-Programmbereich. Die Farbe ist die des
+ *  jeweiligen Bereichs (siehe --cat-* in globals.css) und taucht als Punkt am
+ *  Vorschlag wieder auf. */
 export const suggestions = [
-  "Was hat die FNR im Bereich Paludikultur und Torfersatz bisher gefördert und was sind die zentralen Erkenntnisse?",
-  "Welche Projekte des Waldklimafonds adressieren die Anpassung an den Klimawandel und mit welchen Ansätzen?",
-  "Wie entwickelt sich die FNR-Förderung im Bereich Biokunststoffe und Biowerkstoffe — Trends, Lücken, Transferpotenziale?",
-  "Wo gibt es bereichsübergreifende Synergien zwischen Bioenergie- und Biowerkstoff-Projekten im FNR-Portfolio?",
+  {
+    text: "Spanisch für Anfänger, am liebsten abends",
+    bereich: "Sprachen",
+    color: "var(--cat-sprachen)",
+  },
+  {
+    text: "Yoga am Wochenende in meiner Nähe",
+    bereich: "Gesundheit",
+    color: "var(--cat-gesundheit)",
+  },
+  {
+    text: "Excel lernen neben dem Job",
+    bereich: "Arbeit & IT",
+    color: "var(--cat-beruf)",
+  },
+  {
+    text: "Fotografieren lernen ohne Vorkenntnisse",
+    bereich: "Kultur",
+    color: "var(--cat-kultur)",
+  },
 ];

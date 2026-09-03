@@ -45,11 +45,11 @@ export default function Page() {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">
-        Willkommen zurück
+      <h1 className="font-semibold text-2xl text-navy tracking-tight">
+        Schön, dass du wieder da bist
       </h1>
-      <p className="text-sm text-muted-foreground">
-        Melden Sie sich mit Ihrem FNR-Konto an
+      <p className="text-muted-foreground text-sm">
+        Melde dich an, dann sind deine bisherigen Suchen wieder da.
       </p>
       <AuthForm action={handleSubmit} defaultEmail={email}>
         <SubmitButton isSuccessful={isSuccessful}>Anmelden</SubmitButton>

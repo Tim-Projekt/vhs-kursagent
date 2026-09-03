@@ -115,8 +115,8 @@ const PurePreviewMessage = ({
     if (type === "text") {
       return (
         <MessageContent
-          className={cn("text-[13px] leading-[1.65]", {
-            "w-fit max-w-[min(80%,56ch)] overflow-hidden break-words rounded-lg rounded-br-sm border border-border/60 bg-secondary px-3.5 py-2":
+          className={cn("text-[15px] leading-[1.7]", {
+            "w-fit max-w-[min(80%,56ch)] overflow-hidden break-words rounded-lg rounded-br-sm border border-border bg-secondary px-4 py-2.5":
               message.role === "user",
           })}
           data-testid="message-content"
@@ -306,7 +306,7 @@ const PurePreviewMessage = ({
   );
 
   const content = isThinking ? (
-    <div className="flex h-[calc(13px*1.65)] items-center text-[13px] leading-[1.65]">
+    <div className="flex h-[calc(15px*1.7)] items-center text-[15px] leading-[1.7]">
       <Shimmer className="font-medium" duration={1}>
         Thinking...
       </Shimmer>
@@ -366,7 +366,7 @@ export const ThinkingMessage = () => {
           </div>
         </div>
 
-        <div className="flex h-[calc(13px*1.65)] items-center text-[13px] leading-[1.65]">
+        <div className="flex h-[calc(15px*1.7)] items-center text-[15px] leading-[1.7]">
           <Shimmer className="font-medium" duration={1}>
             Thinking...
           </Shimmer>

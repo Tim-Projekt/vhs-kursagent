@@ -1,6 +1,6 @@
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
-import { FnrWordmark } from "@/components/chat/icons";
+import { KursspotWordmark } from "@/components/chat/icons";
 import { Preview } from "@/components/chat/preview";
 
 export default function AuthLayout({
@@ -21,7 +21,7 @@ export default function AuthLayout({
         <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-10">
           <div className="flex flex-col gap-2">
             <div className="mb-2">
-              <FnrWordmark height={26} />
+              <KursspotWordmark height={26} />
             </div>
             {children}
           </div>
@@ -30,7 +30,7 @@ export default function AuthLayout({
 
       <div className="hidden flex-1 flex-col overflow-hidden pl-12 xl:flex">
         <div className="pt-8">
-          <FnrWordmark height={22} />
+          <KursspotWordmark height={22} />
         </div>
         <div className="flex-1 pt-4">
           <Preview />

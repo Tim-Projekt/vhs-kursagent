@@ -41,13 +41,13 @@ export default function Page() {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">
+      <h1 className="font-semibold text-2xl text-navy tracking-tight">
         Passwort vergessen
       </h1>
-      <p className="text-sm text-muted-foreground">
+      <p className="text-muted-foreground text-sm">
         {isSuccessful
-          ? "Falls ein Konto mit dieser E-Mail existiert, wurde dir ein Link zum Zurücksetzen geschickt."
-          : "Gib deine FNR-E-Mail-Adresse ein — wir senden dir einen Link zum Zurücksetzen."}
+          ? "Falls es ein Konto mit dieser Adresse gibt, ist der Link unterwegs."
+          : "Gib deine E-Mail-Adresse ein, wir schicken dir einen Link."}
       </p>
 
       {isSuccessful ? (
@@ -75,7 +75,7 @@ export default function Page() {
               defaultValue={email}
               id="email"
               name="email"
-              placeholder="name@fnr.de"
+              placeholder="name@example.de"
               required
               type="email"
             />

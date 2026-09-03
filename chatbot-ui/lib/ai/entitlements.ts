@@ -5,7 +5,7 @@ type Entitlements = {
 };
 
 // Differenziert nach Tier statt nach Auth-Mechanismus: anonyme Gäste sind am
-// stärksten limitiert (Missbrauchsschutz), angemeldete FNR-Mitarbeitende
+// stärksten limitiert (Missbrauchsschutz), angemeldete Nutzer:innen
 // bekommen deutlich mehr Spielraum für iterative Multi-Themen-Recherchen
 // (siehe systemPrompt in lib/ai/prompts.ts). "pro"/"admin" werden aktuell
 // manuell über User.role in der Datenbank vergeben (kein Self-Service).

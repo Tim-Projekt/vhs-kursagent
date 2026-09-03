@@ -8,7 +8,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
-import { FnrMark } from "@/components/chat/icons";
+import { KursspotMark } from "@/components/chat/icons";
 import {
   getChatHistoryPaginationKey,
   SidebarHistory,
@@ -73,7 +73,9 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                   tooltip="kursspot"
                 >
                   <Link href="/" onClick={() => setOpenMobile(false)}>
-                    <FnrMark size={16} />
+                    <span className="text-primary">
+                      <KursspotMark size={16} />
+                    </span>
                   </Link>
                 </SidebarMenuButton>
                 <Tooltip>
@@ -144,8 +146,8 @@ export function AppSidebar({ user }: { user: User | undefined }) {
           <AlertDialogHeader>
             <AlertDialogTitle>Alle Chats löschen?</AlertDialogTitle>
             <AlertDialogDescription>
-              Diese Aktion kann nicht rückgängig gemacht werden. Alle Ihre
-              Chats werden dauerhaft von unseren Servern entfernt.
+              Das lässt sich nicht rückgängig machen — deine bisherigen Suchen
+              sind dann weg.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

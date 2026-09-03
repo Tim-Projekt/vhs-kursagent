@@ -5,7 +5,7 @@ import Link from "next/link";
 import { memo } from "react";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
-import { FnrMark } from "./icons";
+import { KursspotMark } from "./icons";
 import { VisibilitySelector, type VisibilityType } from "./visibility-selector";
 
 function PureChatHeader({
@@ -24,9 +24,9 @@ function PureChatHeader({
   }
 
   return (
-    <header className="sticky top-0 z-10 flex h-14 items-center gap-3 bg-primary px-3 text-primary-foreground">
+    <header className="sticky top-0 z-10 flex h-14 items-center gap-3 border-border border-b bg-background px-3 text-foreground">
       <Button
-        className="text-primary-foreground hover:bg-primary-foreground/15 hover:text-primary-foreground md:hidden"
+        className="text-muted-foreground hover:bg-muted hover:text-foreground md:hidden"
         onClick={toggleSidebar}
         size="icon-sm"
         variant="ghost"
@@ -35,8 +35,10 @@ function PureChatHeader({
       </Button>
 
       <Link className="flex items-center gap-2" href="/">
-        <FnrMark size={20} />
-        <span className="hidden font-medium text-[14px] tracking-wide sm:inline">
+        <span className="text-primary">
+          <KursspotMark size={20} />
+        </span>
+        <span className="hidden font-semibold text-[14px] tracking-wide sm:inline">
           kursspot
         </span>
       </Link>
