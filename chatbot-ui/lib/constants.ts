@@ -17,23 +17,23 @@ export const DUMMY_PASSWORD = generateDummyPassword();
  *  Vorschlag wieder auf. */
 export const suggestions = [
   {
-    text: "Spanisch für Anfänger, am liebsten abends",
-    bereich: "Sprachen",
-    color: "var(--cat-sprachen)",
-  },
-  {
-    text: "Yoga am Wochenende in meiner Nähe",
+    text: "Ich sitze den ganzen Tag am Rechner und mein Rücken merkt das – was tut mir nach Feierabend gut, ohne dass ich quer durch die Stadt fahren muss?",
     bereich: "Gesundheit",
     color: "var(--cat-gesundheit)",
   },
   {
-    text: "Excel lernen neben dem Job",
+    text: "Neu in Berlin, wohne in Neukölln und kenne kaum jemanden – gibt es Kurse, in denen man locker ins Gespräch kommt?",
+    bereich: "Kultur",
+    color: "var(--cat-kultur)",
+  },
+  {
+    text: "Ich will mich nebenberuflich selbstständig machen, aber bei Buchhaltung und Steuern steige ich aus",
     bereich: "Arbeit & IT",
     color: "var(--cat-beruf)",
   },
   {
-    text: "Fotografieren lernen ohne Vorkenntnisse",
-    bereich: "Kultur",
-    color: "var(--cat-kultur)",
+    text: "Ich möchte mich in meinem Kiez engagieren, weiß aber nicht, wo ich anfangen soll",
+    bereich: "Gesellschaft",
+    color: "var(--cat-politik)",
   },
 ];

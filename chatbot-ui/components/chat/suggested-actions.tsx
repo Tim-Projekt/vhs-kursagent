@@ -41,7 +41,7 @@ function PureSuggestedActions({ chatId, sendMessage }: SuggestedActionsProps) {
           }}
         >
           <Suggestion
-            className="group h-auto w-full items-start gap-3 whitespace-normal rounded-lg border border-border bg-card px-4 py-3.5 text-left shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-[var(--shadow-float)]"
+            className="group h-full w-full flex-col items-start justify-start gap-1.5 whitespace-normal rounded-lg border border-border border-l-[3px] bg-card px-4 py-3.5 text-left shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-float)]"
             onClick={(suggestion) => {
               window.history.pushState(
                 {},
@@ -53,23 +53,17 @@ function PureSuggestedActions({ chatId, sendMessage }: SuggestedActionsProps) {
                 parts: [{ type: "text", text: suggestion }],
               });
             }}
+            style={{ borderLeftColor: suggestedAction.color }}
             suggestion={suggestedAction.text}
           >
             <span
-              aria-hidden
-              className="mt-1.5 size-2.5 shrink-0 rounded-full transition-transform duration-200 group-hover:scale-125"
-              style={{ background: suggestedAction.color }}
-            />
-            <span className="flex min-w-0 flex-col gap-1">
-              <span
-                className="font-semibold text-[11px] uppercase tracking-wider"
-                style={{ color: suggestedAction.color }}
-              >
-                {suggestedAction.bereich}
-              </span>
-              <span className="text-[14px] text-foreground leading-snug">
-                {suggestedAction.text}
-              </span>
+              className="font-semibold text-[11px] uppercase tracking-wider"
+              style={{ color: suggestedAction.color }}
+            >
+              {suggestedAction.bereich}
+            </span>
+            <span className="text-[14px] text-foreground leading-snug">
+              {suggestedAction.text}
             </span>
           </Suggestion>
         </motion.div>

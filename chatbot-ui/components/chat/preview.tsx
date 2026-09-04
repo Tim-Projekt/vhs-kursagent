@@ -36,17 +36,19 @@ export function Preview() {
         <div className="grid w-full max-w-md grid-cols-2 gap-2.5">
           {suggestions.map((suggestion) => (
             <button
-              className="flex items-start gap-2.5 rounded-lg border border-border bg-card px-3 py-3 text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)]"
+              className="flex h-full flex-col items-start gap-1 rounded-lg border border-border border-l-[3px] bg-card px-3 py-3 text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)]"
               key={suggestion.text}
               onClick={() => handleAction(suggestion.text)}
+              style={{ borderLeftColor: suggestion.color }}
               type="button"
             >
               <span
-                aria-hidden
-                className="mt-1 size-2 shrink-0 rounded-full"
-                style={{ background: suggestion.color }}
-              />
-              <span className="text-[12px] text-foreground leading-snug">
+                className="font-semibold text-[10px] uppercase tracking-wider"
+                style={{ color: suggestion.color }}
+              >
+                {suggestion.bereich}
+              </span>
+              <span className="line-clamp-3 text-[12px] text-foreground leading-snug">
                 {suggestion.text}
               </span>
             </button>

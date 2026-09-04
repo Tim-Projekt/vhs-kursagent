@@ -51,7 +51,7 @@ export const Greeting = () => {
           initial={{ opacity: 0, y: 10 }}
           transition={{ delay: 0.3, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          Was willst du lernen?
+          Was willst du in Berlin lernen?
         </motion.h1>
         <motion.p
           animate={{ opacity: 1, y: 0 }}
@@ -59,8 +59,10 @@ export const Greeting = () => {
           initial={{ opacity: 0, y: 10 }}
           transition={{ delay: 0.42, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          Sag, worauf du Lust hast. Ich suche im aktuellen Programm der
-          Volkshochschulen.
+          Beschreib deine Situation, nicht nur ein Stichwort. Ich durchsuche
+          das aktuelle Programm aller zwölf Berliner Volkshochschulen – von
+          Mitte bis Marzahn-Hellersdorf – und schlage dir vor, was in deinen
+          Alltag passt.
         </motion.p>
       </div>
     </div>
